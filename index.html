@@ -599,19 +599,39 @@
       .nav-links { display: none; }
       .nav-cta { font-size: 0.68rem; padding: 8px 16px; }
 
-      /* Hero — stack vertically, logo below text */
-      .hero { padding: 90px 24px 72px; min-height: auto; }
+      /* Hero — stack vertically, logo ABOVE text, no clipping */
+      .hero {
+        padding: 80px 24px 56px;
+        min-height: auto;
+        overflow-x: hidden;
+        overflow-y: visible;
+        justify-content: flex-start;
+      }
       .hero > div[style*="display:flex"] {
         flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 32px !important;
+        align-items: center !important;
+        gap: 28px !important;
+        width: 100% !important;
       }
-      /* Hide triangle labels on mobile — too small to read */
+      /* Logo column: full width, logo first on mobile */
+      .hero > div[style*="display:flex"] > div:last-child {
+        order: -1 !important;
+        width: 100% !important;
+        justify-content: center !important;
+      }
+      /* Text column: full width */
+      .hero > div[style*="display:flex"] > div:first-child {
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+      /* Hide triangle labels on mobile */
       .hero p[style*="position:absolute"] { display: none !important; }
-      /* Logo: smaller on mobile, centered */
+      /* Logo: width-based sizing so it never gets clipped */
       .hero img[src="navibill_logo-2.png"] {
-        height: clamp(160px, 55vw, 220px) !important;
-        align-self: center;
+        height: auto !important;
+        width: min(65vw, 240px) !important;
+        display: block;
+        margin: 0 auto;
       }
 
       /* Sections */
