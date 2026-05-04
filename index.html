@@ -590,22 +590,66 @@
       .steps-grid { grid-template-columns: repeat(2, 1fr); }
       .stories-grid { grid-template-columns: repeat(2, 1fr); }
     }
+
+    /* Tablet */
     @media (max-width: 768px) {
-      .nav, .nav.scrolled { padding: 16px 24px; }
+      /* Nav */
+      .nav, .nav.scrolled { padding: 14px 20px; }
+      .nav-wordmark { font-size: 1.5rem; }
       .nav-links { display: none; }
-      .hero { padding: 0 24px 80px; }
-      .stat-banner { padding: 64px 24px; flex-direction: column; gap: 24px; }
-      .triangle-section { padding: 72px 24px; }
-      .steps-preview { padding: 72px 24px; }
+      .nav-cta { font-size: 0.68rem; padding: 8px 16px; }
+
+      /* Hero — stack vertically, logo below text */
+      .hero { padding: 90px 24px 72px; min-height: auto; }
+      .hero > div[style*="display:flex"] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 32px !important;
+      }
+      /* Hide triangle labels on mobile — too small to read */
+      .hero p[style*="position:absolute"] { display: none !important; }
+      /* Logo: smaller on mobile, centered */
+      .hero img[src="navibill_logo-2.png"] {
+        height: clamp(160px, 55vw, 220px) !important;
+        align-self: center;
+      }
+
+      /* Sections */
+      .triangle-section { padding: 56px 20px; }
+      .steps-preview { padding: 56px 20px; }
       .steps-grid { grid-template-columns: 1fr; }
-      .stories-section { padding: 72px 24px; }
+      .stories-section { padding: 56px 20px; }
       .stories-grid { grid-template-columns: 1fr; }
-      .cta-section { padding: 88px 24px; }
-      footer { padding: 48px 24px 32px; }
-      .footer-inner { grid-template-columns: 1fr 1fr; gap: 36px; }
+      .cta-section { padding: 72px 20px; }
+
+      /* Footer */
+      footer { padding: 48px 20px 28px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
     }
-    @media (max-width: 540px) {
-      .footer-inner { grid-template-columns: 1fr; }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      /* Nav */
+      .nav-wordmark { font-size: 1.25rem; }
+      .nav-cta { display: none; }
+
+      /* Hero */
+      .hero { padding: 80px 18px 60px; }
+
+      /* Steps grid single column */
+      .steps-grid { grid-template-columns: 1fr; }
+
+      /* Stories single column */
+      .stories-grid { grid-template-columns: 1fr; }
+
+      /* Footer single column */
+      .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+
+      /* Reduce section padding */
+      .triangle-section,
+      .steps-preview,
+      .stories-section,
+      .cta-section { padding-left: 18px; padding-right: 18px; }
     }
   </style>
 </head>

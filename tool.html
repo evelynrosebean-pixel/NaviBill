@@ -329,6 +329,27 @@
       .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
     }
     @media (max-width: 540px) { .footer-inner { grid-template-columns: 1fr; } }
+
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .nav-wordmark { font-size: 1.5rem; }
+      .nav-links { display: none; }
+      .nav-cta { font-size: 0.68rem; padding: 8px 16px; }
+      .page-hero { padding: 100px 20px 64px; }
+      .tool-section { padding: 48px 20px 64px; }
+      .doc-grid { grid-template-columns: 1fr; gap: 12px; }
+      .results-header { padding: 24px 20px; }
+      .results-body { padding: 24px 20px; grid-template-columns: 1fr; }
+      .results-reset { padding: 18px 20px; }
+      footer { padding: 48px 20px 28px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 480px) {
+      .nav-wordmark { font-size: 1.25rem; }
+      .nav-cta { display: none; }
+      .doc-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>

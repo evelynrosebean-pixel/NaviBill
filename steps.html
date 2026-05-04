@@ -366,6 +366,29 @@
     @media (max-width: 540px) {
       .footer-inner { grid-template-columns: 1fr; }
     }
+
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .nav-wordmark { font-size: 1.5rem; }
+      .nav-links { display: none; }
+      .nav-cta { font-size: 0.68rem; padding: 8px 16px; }
+      .page-hero { padding: 100px 20px 64px; }
+      .step-nav { padding: 0 8px; top: 62px; }
+      .step-section { padding: 56px 20px; }
+      .step-inner, .step-inner.flipped { grid-template-columns: 1fr; gap: 36px; }
+      .step-inner.flipped .step-content, .step-inner.flipped .step-detail { order: unset; }
+      .step-big-num { font-size: 5rem; }
+      .forms-grid { grid-template-columns: 1fr; }
+      .cta-strip { padding: 64px 20px; }
+      footer { padding: 48px 20px 28px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 480px) {
+      .nav-wordmark { font-size: 1.25rem; }
+      .nav-cta { display: none; }
+      .step-nav-label { display: none; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
