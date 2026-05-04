@@ -599,7 +599,7 @@
       .nav-links { display: none; }
       .nav-cta { font-size: 0.68rem; padding: 8px 16px; }
 
-      /* Hero — stack vertically, logo ABOVE text, no clipping */
+      /* Hero — stack vertically, no clipping */
       .hero {
         padding: 80px 24px 56px;
         min-height: auto;
@@ -610,20 +610,16 @@
       .hero > div[style*="display:flex"] {
         flex-direction: column !important;
         align-items: center !important;
-        gap: 28px !important;
+        gap: 24px !important;
         width: 100% !important;
       }
-      /* Logo column: full width, logo first on mobile */
-      .hero > div[style*="display:flex"] > div:last-child {
-        order: -1 !important;
-        width: 100% !important;
-        justify-content: center !important;
-      }
-      /* Text column: full width */
-      .hero > div[style*="display:flex"] > div:first-child {
-        width: 100% !important;
-        min-width: 0 !important;
-      }
+      /* Swap eyebrows: show mobile version, hide desktop version */
+      .hero-eyebrow-mobile { display: flex !important; order: 1; width: 100%; }
+      .hero-eyebrow-desktop { display: none !important; }
+      /* Order: eyebrow (1) → logo (2) → text (3) */
+      .hero-logo-col { order: 2; width: 100%; justify-content: center !important; }
+      .hero-text-col { order: 3; width: 100%; min-width: 0 !important; }
+
       /* Hide triangle labels on mobile */
       .hero p[style*="position:absolute"] { display: none !important; }
       /* Logo: width-based sizing so it never gets clipped */
@@ -735,9 +731,13 @@
 
   <div style="position:relative;z-index:2;max-width:1200px;width:100%;display:flex;align-items:center;gap:56px;">
 
+    <!-- Mobile-only eyebrow — appears above logo on small screens -->
+    <p class="eyebrow hero-eyebrow-mobile fade-up" style="color:var(--gold-500);display:none;">Your Compass through the Bermuda Triangle of Medical Billing</p>
+
     <!-- Text column -->
-    <div style="flex:1;min-width:0;">
-      <p class="eyebrow fade-up" style="color:var(--gold-500)">Your Compass through the Bermuda Triangle of Medical Billing</p>
+    <div class="hero-text-col" style="flex:1;min-width:0;">
+      <!-- Desktop-only eyebrow — inside text column on large screens -->
+      <p class="eyebrow hero-eyebrow-desktop fade-up" style="color:var(--gold-500)">Your Compass through the Bermuda Triangle of Medical Billing</p>
       <h1 style="font-family:'Oswald',sans-serif;font-size:clamp(3.5rem,8vw,10.5rem);font-weight:700;font-style:italic;line-height:0.93em;letter-spacing:-0.03em;color:var(--parch-100);margin-bottom:24px;" class="fade-up d1">
         Lost in a <span style="color:var(--gold-400)">sea</span><br>of medical bills?
       </h1>
@@ -753,7 +753,7 @@
     </div>
 
     <!-- Logo column -->
-    <div class="fade-up d1" style="flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+    <div class="hero-logo-col fade-up d1" style="flex-shrink:0;display:flex;align-items:center;justify-content:center;">
       <!-- Inner wrapper sized to the image so labels can reference its corners -->
       <div style="position:relative;display:inline-block;overflow:visible;">
 
