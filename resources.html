@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources — NaviBill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Bitter:ital,wght@1,400;1,600;1,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest-900: #0B4A5A;
+      --forest-800: #0E5A72;
+      --forest-700: #1A6B82;
+      --forest-600: #1A8FA0;
+      --gold-800:   #B8622C;
+      --gold-700:   #D4763A;
+      --gold-600:   #E8924A;
+      --gold-500:   #F2A85A;
+      --gold-400:   #F7E06A;
+      --parch-300:  #8DE8E0;
+      --parch-200:  #C0F0EC;
+      --parch-100:  #FFFBE7;
+      --parch-50:   #EFF9F7;
+      --text-dark:  #0B2A3A;
+      --text-body:  #1A3D4E;
+      --rust-500:   #b04a22;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Raleway', sans-serif; color: var(--text-body); background: var(--parch-50); overflow-x: hidden; }
+    h1, h2, h3, h4 { font-family: 'Oswald', sans-serif; }
+
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; } .d3 { transition-delay: .32s; }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 900; display: flex; align-items: center; justify-content: space-between; padding: 20px 64px; background: rgba(11,74,90,.97); box-shadow: 0 2px 28px rgba(0,0,0,.4); backdrop-filter: blur(10px); }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo { height: 36px; }
+    .nav-wordmark { font-family: 'Oswald',sans-serif; font-size: 1.15rem; font-weight: 700; letter-spacing: -.02em; color: var(--parch-100); }
+    .nav-links { display: flex; align-items: center; gap: 2.25rem; list-style: none; }
+    .nav-links a { font-size: .75rem; font-weight: 500; color: rgba(255,251,231,.55); text-decoration: none; letter-spacing: .07em; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--parch-100); }
+    .nav-cta { font-family: 'Raleway',sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--text-dark); background: var(--gold-500); padding: 9px 22px; border-radius: 3px; text-decoration: none; transition: background .2s; box-shadow: 0 3px 14px rgba(242,168,90,.35); }
+    .nav-cta:hover { background: var(--gold-400); }
+
+    /* BUTTONS */
+    .btn { display: inline-flex; align-items: center; gap: 8px; font-family: 'Raleway',sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; text-decoration: none; padding: 12px 28px; border-radius: 3px; border: 1.5px solid transparent; cursor: pointer; transition: background .2s, color .2s, transform .15s; }
+    .btn:active { transform: translateY(1px); }
+    .btn-gold { color: var(--text-dark); background: var(--gold-500); border-color: var(--gold-500); box-shadow: 0 4px 20px rgba(242,168,90,.38); }
+    .btn-gold:hover { background: var(--gold-400); border-color: var(--gold-400); }
+    .btn-parch { color: var(--parch-100); border-color: rgba(255,251,231,.38); background: transparent; }
+    .btn-parch:hover { background: rgba(255,251,231,.08); }
+    .btn-outline-dark { color: var(--text-dark); border-color: rgba(11,42,58,.28); background: transparent; }
+    .btn-outline-dark:hover { background: rgba(11,42,58,.05); border-color: rgba(11,42,58,.6); }
+
+    /* PRINT button */
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; }
+      .checklist-card { break-inside: avoid; }
+    }
+
+    /* PAGE HERO */
+    .page-hero {
+      position: relative;
+      background: var(--forest-900);
+      padding: 150px 64px 100px;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 65% at 50% 100%, rgba(26,143,160,.18) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 50% at 5% 35%, rgba(8,36,16,.5) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .page-hero-inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
+    .page-title { font-family: 'Oswald',sans-serif; font-size: clamp(3.5rem,7.5vw,10rem); font-weight: 700; font-style: italic; line-height: .94em; letter-spacing: -.03em; color: var(--parch-100); margin-bottom: 24px; }
+    .page-title em { font-style: normal; color: var(--gold-400); }
+    .page-intro { font-size: clamp(1rem,1.5vw,1.2rem); line-height: 1.75; color: rgba(255,251,231,.5); max-width: 580px; }
+
+    /* RESOURCE NAV TABS */
+    .resource-tabs {
+      background: var(--forest-800);
+      padding: 0 64px;
+      display: flex;
+      border-bottom: 1px solid rgba(255,251,231,.07);
+      position: sticky;
+      top: 76px;
+      z-index: 100;
+    }
+    .resource-tab { display: flex; align-items: center; gap: 8px; padding: 20px 24px; text-decoration: none; border-bottom: 2.5px solid transparent; font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,251,231,.5); transition: color .2s, border-color .2s; }
+    .resource-tab:hover { color: var(--parch-100); border-bottom-color: rgba(247,224,106,.3); }
+    .resource-tab.active { color: var(--gold-400); border-bottom-color: var(--gold-500); }
+
+    /* SECTIONS */
+    .resource-section { padding: 96px 64px; }
+    .resource-section:nth-child(odd) { background: var(--parch-50); }
+    .resource-section:nth-child(even) { background: #fff; }
+
+    .resource-section:nth-child(odd)::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .resource-section { position: relative; }
+
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-eyebrow { font-size: .68rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-600); margin-bottom: 18px; display: flex; align-items: center; gap: 12px; }
+    .section-eyebrow::before { content: ''; display: block; width: 24px; height: 1.5px; background: currentColor; }
+    .section-heading { font-family: 'Oswald',sans-serif; font-size: clamp(2rem,3.5vw,4.5rem); font-weight: 700; font-style: italic; line-height: 1.04em; letter-spacing: -.02em; color: var(--text-dark); margin-bottom: 16px; }
+    .section-sub { font-size: 1rem; color: var(--text-body); opacity: .55; margin-bottom: 52px; max-width: 560px; }
+
+    /* CHECKLISTS */
+    .checklist-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .checklist-card {
+      background: #fff;
+      border: 1px solid var(--parch-200);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(26,61,78,.06), 0 8px 32px rgba(26,61,78,.04);
+    }
+    .checklist-header {
+      background: var(--forest-800);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .checklist-title { font-family: 'Oswald',sans-serif; font-size: 1.1rem; font-weight: 600; font-style: italic; color: var(--parch-100); }
+    .checklist-count { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-400); }
+    .checklist-body { padding: 28px; }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--parch-100);
+      cursor: pointer;
+    }
+    .checklist-item:last-child { border-bottom: none; }
+    .checklist-checkbox {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--parch-300);
+      border-radius: 3px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      background: #fff;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+      position: relative;
+    }
+    .checklist-item.checked .checklist-checkbox {
+      background: var(--forest-700);
+      border-color: var(--forest-700);
+    }
+    .checklist-item.checked .checklist-checkbox::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--parch-100);
+    }
+    .checklist-text { font-size: .875rem; line-height: 1.62; color: var(--text-body); opacity: .78; transition: opacity .2s; }
+    .checklist-item.checked .checklist-text { opacity: .4; text-decoration: line-through; }
+
+    .checklist-actions { padding: 16px 28px; border-top: 1px solid var(--parch-100); display: flex; justify-content: space-between; align-items: center; background: var(--parch-50); }
+    .checklist-reset { font-size: .72rem; font-weight: 600; color: var(--text-body); opacity: .45; background: none; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; padding: 0; }
+    .checklist-reset:hover { opacity: .7; }
+    .checklist-print { font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-700); background: none; border: none; cursor: pointer; padding: 0; }
+    .checklist-print:hover { color: var(--gold-600); }
+
+    /* SAMPLE LETTERS */
+    .letters-grid { display: flex; flex-direction: column; gap: 24px; }
+    .letter-card {
+      background: #fff;
+      border: 1px solid var(--parch-200);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(26,61,78,.05);
+    }
+    .letter-header {
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+      transition: background .2s, border-color .2s;
+    }
+    .letter-header:hover { background: var(--parch-50); }
+    .letter-header.open { background: var(--parch-50); border-bottom-color: var(--parch-200); }
+    .letter-title-row { display: flex; align-items: center; gap: 16px; }
+    .letter-icon { font-size: 1.4rem; }
+    .letter-name { font-family: 'Oswald',sans-serif; font-size: 1.1rem; font-weight: 600; font-style: italic; color: var(--text-dark); }
+    .letter-use { font-size: .8rem; color: var(--text-body); opacity: .55; margin-top: 3px; }
+    .letter-toggle { font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-600); flex-shrink: 0; }
+    .letter-body { padding: 32px; display: none; }
+    .letter-body.open { display: block; }
+    .letter-template {
+      background: var(--parch-50);
+      border: 1px solid var(--parch-200);
+      padding: 32px;
+      font-family: 'Oswald',sans-serif;
+      font-size: .9rem;
+      line-height: 1.85;
+      color: var(--text-body);
+      white-space: pre-wrap;
+      border-radius: 4px;
+    }
+    .letter-template .placeholder {
+      background: rgba(242,168,90,.18);
+      padding: 0 4px;
+      border-radius: 2px;
+      font-style: italic;
+      color: var(--gold-700);
+    }
+    .letter-note { margin-top: 16px; font-size: .82rem; line-height: 1.62; color: var(--text-body); opacity: .55; font-style: italic; }
+
+    /* GLOSSARY */
+    .glossary-search-wrap { margin-bottom: 36px; position: relative; max-width: 480px; }
+    .glossary-search {
+      width: 100%;
+      padding: 14px 48px 14px 18px;
+      border: 1.5px solid var(--parch-300);
+      border-radius: 4px;
+      font-family: 'Raleway',sans-serif;
+      font-size: .9rem;
+      color: var(--text-body);
+      background: #fff;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .glossary-search:focus { outline: none; border-color: var(--forest-600); box-shadow: 0 0 0 3px rgba(58,100,69,.15); }
+    .glossary-search-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 1rem; opacity: .4; }
+
+    .glossary-letter { margin-bottom: 48px; }
+    .glossary-letter-label { font-family: 'Oswald',sans-serif; font-size: 2.5rem; font-weight: 700; font-style: italic; color: var(--parch-300); letter-spacing: -.02em; line-height: 1em; margin-bottom: 2px; padding-bottom: 12px; border-bottom: 1.5px solid var(--parch-200); display: block; }
+    .glossary-term { padding: 16px 0; border-bottom: 1px solid var(--parch-100); }
+    .glossary-term:last-child { border-bottom: none; }
+    .glossary-term-name { font-family: 'Oswald',sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; }
+    .glossary-term-def { font-size: .875rem; line-height: 1.68; color: var(--text-body); opacity: .7; }
+    .glossary-term.hidden { display: none; }
+
+    /* CTA */
+    .cta-strip { background: var(--forest-900); padding: 100px 64px; text-align: center; position: relative; overflow: hidden; }
+    .cta-strip::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 55% 70% at 50% 50%, rgba(242,168,90,.08) 0%, transparent 65%); pointer-events: none; }
+    .cta-heading { font-family: 'Oswald',sans-serif; font-size: clamp(2rem,4vw,5.5rem); font-weight: 700; font-style: italic; line-height: 1.0em; letter-spacing: -.025em; color: var(--parch-100); margin-bottom: 16px; }
+    .cta-sub { font-size: 1rem; color: rgba(255,251,231,.46); margin-bottom: 44px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+    /* FOOTER */
+    footer { background: #fff; padding: 64px 64px 36px; border-top: 1px solid rgba(26,61,78,.07); }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2.4fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(26,61,78,.07); margin-bottom: 28px; }
+    .footer-brand { display: flex; align-items: flex-start; gap: 14px; }
+    .footer-logo { height: 48px; }
+    .footer-brand-name { font-family: 'Oswald',sans-serif; font-size: 1.125rem; font-weight: 700; color: var(--forest-800); margin-bottom: 8px; }
+    .footer-tagline { font-size: .875rem; line-height: 1.7; color: var(--text-body); opacity: .52; max-width: 230px; }
+    .footer-col-title { font-size: .65rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-600); margin-bottom: 16px; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { font-size: .875rem; color: var(--text-body); text-decoration: none; opacity: .58; transition: opacity .2s; }
+    .footer-links a:hover { opacity: 1; }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-copy { font-size: .78rem; color: var(--text-body); opacity: .32; }
+    .footer-disc { font-size: .72rem; color: var(--text-body); opacity: .28; font-style: italic; }
+
+    .wave-wrap { display: block; line-height: 0; overflow: hidden; }
+
+    @media (max-width: 1024px) { .checklist-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .nav { padding: 14px 24px; } .nav-links { display: none; }
+      .page-hero { padding: 130px 24px 80px; }
+      .resource-tabs { padding: 0 16px; }
+      .resource-section { padding: 64px 24px; }
+      .cta-strip { padding: 72px 24px; }
+      footer { padding: 48px 24px 28px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 540px) { .footer-inner { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <img src="navibill_logo-2.png" alt="NaviBill" class="nav-logo">
+      <span class="nav-wordmark">NaviBill</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="steps.html">The Guide</a></li>
+      <li><a href="tool.html">Navigator Tool</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="resources.html" class="active">Resources</a></li>
+    </ul>
+    <a href="tool.html" class="nav-cta">Launch Tool</a>
+  </nav>
+</header>
+
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <p style="font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-500);margin-bottom:20px;display:flex;align-items:center;gap:12px" class="fade-up">
+      <span style="display:block;width:26px;height:1.5px;background:currentColor"></span>
+      Charts &amp; Treasure Maps
+    </p>
+    <h1 class="page-title fade-up d1">
+      Your Billing<br><em>Toolkit</em>
+    </h1>
+    <p class="page-intro fade-up d2">
+      Checklists, sample letters, and a plain-English glossary of every billing term you'll encounter. Print them, use them, keep them in hand.
+    </p>
+  </div>
+  <svg style="position:absolute;bottom:0;left:0;right:0;width:100%;pointer-events:none;z-index:1" viewBox="0 0 1440 72" preserveAspectRatio="none">
+    <path d="M0,40 C240,72 480,8 720,50 C960,92 1200,12 1440,44 L1440,72 L0,72Z" fill="var(--parch-50)"/>
+  </svg>
+</section>
+
+
+<!-- RESOURCE TABS -->
+<nav class="resource-tabs no-print" aria-label="Resource sections">
+  <a href="#checklists" class="resource-tab active">📋 Checklists</a>
+  <a href="#letters" class="resource-tab">✉️ Sample Letters</a>
+  <a href="#glossary" class="resource-tab">📖 Glossary</a>
+  <a href="#links" class="resource-tab">🔗 Helpful Links</a>
+</nav>
+
+
+<!-- ══ CHECKLISTS ══════════════════════════════════════════ -->
+<section class="resource-section" id="checklists">
+  <div class="section-inner">
+    <p class="section-eyebrow fade-up">Printable Checklists</p>
+    <h2 class="section-heading fade-up d1">Check Every Box<br>Before You Pay</h2>
+    <p class="section-sub fade-up d2">Use these checklists whenever you receive a medical bill or insurance form. Check the items as you go — or print them for offline use.</p>
+
+    <div class="checklist-grid">
+
+      <!-- Checklist 1: Reviewing Your EOB -->
+      <div class="checklist-card fade-up" id="cl-eob">
+        <div class="checklist-header">
+          <div class="checklist-title">Reviewing Your EOB</div>
+          <div class="checklist-count">9 items</div>
+        </div>
+        <div class="checklist-body">
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">My name and insurance ID number are correct</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">The date of service matches my appointment date</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">The provider name matches the facility or doctor I visited</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have reviewed the "Amount Billed" vs. "Amount Allowed" vs. "Your Responsibility"</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">No services are listed that I don't recognize</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">The CPT codes on the EOB match the codes on my provider's bill</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">The claim was correctly processed as in-network (if the provider is in your network) — if it was processed as out-of-network unexpectedly, contact the provider's billing department to investigate</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">Any denial codes are noted and I have looked up what they mean</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have filed this EOB with my bill for reference</div>
+          </div>
+        </div>
+        <div class="checklist-actions">
+          <button class="checklist-reset" onclick="resetChecklist('cl-eob')">Reset all</button>
+          <button class="checklist-print" onclick="window.print()">🖨️ Print</button>
+        </div>
+      </div>
+
+      <!-- Checklist 2: Before Paying a Bill -->
+      <div class="checklist-card fade-up d1" id="cl-bill">
+        <div class="checklist-header">
+          <div class="checklist-title">Before Paying Any Bill</div>
+          <div class="checklist-count">7 items</div>
+        </div>
+        <div class="checklist-body">
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have received and reviewed my EOB from insurance</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">The amount on the bill matches the "Your Responsibility" on my EOB</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have requested an itemized bill if I only received a summary</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">My name and date of birth on the bill are correct</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have not been billed for any services I didn't receive</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">There are no duplicate charges on the itemized bill</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">If I have a concern, I have called the billing department before paying</div>
+          </div>
+        </div>
+        <div class="checklist-actions">
+          <button class="checklist-reset" onclick="resetChecklist('cl-bill')">Reset all</button>
+          <button class="checklist-print" onclick="window.print()">🖨️ Print</button>
+        </div>
+      </div>
+
+      <!-- Checklist 3: When You Receive a Denial -->
+      <div class="checklist-card fade-up" id="cl-denial">
+        <div class="checklist-header">
+          <div class="checklist-title">Responding to a Denial</div>
+          <div class="checklist-count">8 items</div>
+        </div>
+        <div class="checklist-body">
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have noted the specific reason for the denial provided in the letter. If a denial reason code was provided, I have looked it up</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have checked my plan's summary of benefits to confirm coverage</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have checked my plan's policy book for medical necessity criteria to ensure I meet the criteria for the service. I have requested a copy of the policy if it was not publicly available</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have noted the appeal deadline as well as any other instructions for the plan's appeal process from the denial letter</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have contacted my doctor's office about the denial</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have written a formal appeal letter</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have sent the appeal via certified mail or submitted through the member portal</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have kept copies of everything submitted</div>
+          </div>
+        </div>
+        <div class="checklist-actions">
+          <button class="checklist-reset" onclick="resetChecklist('cl-denial')">Reset all</button>
+          <button class="checklist-print" onclick="window.print()">🖨️ Print</button>
+        </div>
+      </div>
+
+      <!-- Checklist 4: Hold Letter Response -->
+      <div class="checklist-card fade-up d1" id="cl-hold">
+        <div class="checklist-header">
+          <div class="checklist-title">Responding to a Hold Letter</div>
+          <div class="checklist-count">6 items</div>
+        </div>
+        <div class="checklist-body">
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have read the hold letter and identified exactly what is being requested</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have called my doctor's office to notify them of the hold</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">My doctor's office has submitted the requested documentation</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have confirmed with insurance that the documentation was received</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have a reference number from insurance for my follow-up call</div>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-text">I have set a follow-up reminder for 2 weeks from today</div>
+          </div>
+        </div>
+        <div class="checklist-actions">
+          <button class="checklist-reset" onclick="resetChecklist('cl-hold')">Reset all</button>
+          <button class="checklist-print" onclick="window.print()">🖨️ Print</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- wave parch-50 → white -->
+<div class="wave-wrap" style="background:var(--parch-50)">
+  <svg viewBox="0 0 1440 56" preserveAspectRatio="none" style="display:block;width:100%;height:56px">
+    <path d="M0,56 C360,0 720,56 1080,22 C1260,4 1380,48 1440,30 L1440,0 L0,0Z" fill="#fff"/>
+  </svg>
+</div>
+
+
+<!-- ══ SAMPLE LETTERS ═══════════════════════════════════════ -->
+<section class="resource-section" id="letters" style="background:#fff">
+  <div class="section-inner">
+    <p class="section-eyebrow fade-up">Sample Letters</p>
+    <h2 class="section-heading fade-up d1">Ready-to-Use<br>Templates</h2>
+    <p class="section-sub fade-up d2">Fill in the bracketed fields with your information. Send via certified mail or through your insurer's member portal. Keep a copy of everything.</p>
+
+    <div class="letters-grid fade-up d1">
+
+      <!-- Letter 1: Appeal a Denial -->
+      <div class="letter-card">
+        <div class="letter-header" onclick="toggleLetter(this)">
+          <div class="letter-title-row">
+            <span class="letter-icon">✉️</span>
+            <div>
+              <div class="letter-name">Denial Appeal Letter</div>
+              <div class="letter-use">Use when: Your insurance denied a claim you believe should be covered</div>
+            </div>
+          </div>
+          <span class="letter-toggle">View Template ↓</span>
+        </div>
+        <div class="letter-body">
+          <div class="letter-template">[Your Name]
+[Your Address]
+[City, State, ZIP]
+[Date]
+
+[Insurance Company Name]
+Appeals Department
+[Insurance Company Address]
+
+Re: Appeal of Claim Denial
+Member ID: <span class="placeholder">[Your Member ID]</span>
+Claim Number: <span class="placeholder">[Claim Number from Denial Letter]</span>
+Date of Service: <span class="placeholder">[Date]</span>
+Provider: <span class="placeholder">[Doctor or Facility Name]</span>
+
+Dear Appeals Department,
+
+I am writing to formally appeal the denial of the above-referenced claim, which I received on <span class="placeholder">[Date of Denial Letter]</span>. The stated reason for denial was: <span class="placeholder">[Reason Code and Description from Denial Letter]</span>.
+
+I believe this denial is incorrect for the following reason(s):
+<span class="placeholder">[Explain why the service should be covered — e.g., it was medically necessary, it was an in-network provider, it was a covered benefit under my plan, etc.]</span>
+
+I am enclosing the following supporting documentation:
+- Copy of the denial letter
+- Copy of my Explanation of Benefits (EOB)
+- <span class="placeholder">[Any additional documentation from your doctor]</span>
+
+I request that you review this claim and reverse the denial. Please respond in writing within the timeframe required by my plan.
+
+Sincerely,
+<span class="placeholder">[Your Name]</span>
+<span class="placeholder">[Your Phone Number]</span>
+<span class="placeholder">[Your Email Address]</span></div>
+          <p class="letter-note">⚠️ Send via certified mail with return receipt, or through your insurer's online member portal. Keep the tracking number and a copy of everything you submit. Note the appeal deadline from your denial letter.</p>
+        </div>
+      </div>
+
+      <!-- Letter 2: Request Itemized Bill -->
+      <div class="letter-card">
+        <div class="letter-header" onclick="toggleLetter(this)">
+          <div class="letter-title-row">
+            <span class="letter-icon">📋</span>
+            <div>
+              <div class="letter-name">Itemized Bill Request</div>
+              <div class="letter-use">Use when: You received a summary bill and need line-item detail</div>
+            </div>
+          </div>
+          <span class="letter-toggle">View Template ↓</span>
+        </div>
+        <div class="letter-body">
+          <div class="letter-template">[Your Name]
+[Your Address]
+[Date]
+
+[Provider Name] — Billing Department
+[Provider Address]
+
+Re: Request for Itemized Bill
+Account Number: <span class="placeholder">[Your Account Number]</span>
+Date of Service: <span class="placeholder">[Date]</span>
+
+Dear Billing Department,
+
+I am writing to request a complete itemized bill for the above-referenced account. The bill I received on <span class="placeholder">[Date]</span> was a summary statement and did not include individual line items, CPT codes, or associated charges.
+
+Under my rights as a patient, I am entitled to an itemized bill showing each service rendered, the corresponding CPT and ICD-10 codes, the amount charged for each service, and any adjustments or payments applied.
+
+Please send the itemized bill to the address above or to <span class="placeholder">[your email]</span> at your earliest convenience. I will not remit payment until I have had the opportunity to review the itemized charges.
+
+Thank you for your assistance.
+
+Sincerely,
+<span class="placeholder">[Your Name]</span>
+<span class="placeholder">[Your Phone Number]</span></div>
+          <p class="letter-note">💡 Providers are legally required to provide itemized bills upon request. Do not pay a summary bill until you've reviewed the itemized version against your EOB.</p>
+        </div>
+      </div>
+
+      <!-- Letter 3: Billing Error Dispute -->
+      <div class="letter-card">
+        <div class="letter-header" onclick="toggleLetter(this)">
+          <div class="letter-title-row">
+            <span class="letter-icon">🔍</span>
+            <div>
+              <div class="letter-name">Billing Error Dispute</div>
+              <div class="letter-use">Use when: You found an error in your provider's bill</div>
+            </div>
+          </div>
+          <span class="letter-toggle">View Template ↓</span>
+        </div>
+        <div class="letter-body">
+          <div class="letter-template">[Your Name]
+[Your Address]
+[Date]
+
+[Provider Name] — Billing Department
+[Provider Address]
+
+Re: Billing Error Dispute
+Account Number: <span class="placeholder">[Your Account Number]</span>
+Date of Service: <span class="placeholder">[Date]</span>
+
+Dear Billing Department,
+
+I am writing to dispute an error on my bill dated <span class="placeholder">[Bill Date]</span>. After comparing the bill to my Explanation of Benefits (EOB) from <span class="placeholder">[Insurance Company Name]</span>, I have identified the following discrepancy:
+
+Error Description: <span class="placeholder">[Describe the error — e.g., "CPT code 99214 was billed, but my EOB shows CPT code 99213. The charge of $X does not match the allowed amount on my EOB."]</span>
+
+I am enclosing:
+- A copy of my EOB dated <span class="placeholder">[Date]</span>
+- A copy of the bill in question
+
+I request that you review and correct this error and send me an updated, corrected bill. I will remit payment once the bill accurately reflects the amount shown on my EOB.
+
+Thank you for your prompt attention to this matter.
+
+Sincerely,
+<span class="placeholder">[Your Name]</span>
+<span class="placeholder">[Your Phone Number]</span></div>
+          <p class="letter-note">💡 Always include copies of your EOB and the disputed bill. Reference the specific CPT codes and amounts in your dispute for a faster resolution.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- wave white → parch-50 -->
+<div class="wave-wrap" style="background:#fff">
+  <svg viewBox="0 0 1440 56" preserveAspectRatio="none" style="display:block;width:100%;height:56px">
+    <path d="M0,0 C360,56 720,0 1080,40 C1260,64 1380,14 1440,36 L1440,56 L0,56Z" fill="var(--parch-50)"/>
+  </svg>
+</div>
+
+
+<!-- ══ GLOSSARY ═════════════════════════════════════════════ -->
+<section class="resource-section" id="glossary">
+  <div class="section-inner">
+    <p class="section-eyebrow fade-up">Billing Glossary</p>
+    <h2 class="section-heading fade-up d1">Decode the<br>Billing Language</h2>
+    <p class="section-sub fade-up d2">Every term you'll encounter in medical billing — explained in plain English.</p>
+
+    <div class="glossary-search-wrap fade-up d1">
+      <input type="text" class="glossary-search" placeholder="Search terms..." id="glossary-search" oninput="filterGlossary(this.value)" aria-label="Search glossary">
+      <span class="glossary-search-icon">🔍</span>
+    </div>
+
+    <div id="glossary-content">
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">A</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Adjustment</div>
+          <div class="glossary-term-def">A reduction to the original billed amount. Insurance companies negotiate discounts with in-network providers — the "adjustment" is the difference between what was billed and what the insurer's contract allows.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Allowed Amount</div>
+          <div class="glossary-term-def">The maximum amount an insurance company will pay for a covered service. Also called the "negotiated rate" or "contracted rate." In-network providers agree to accept this amount as full payment.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Appeal</div>
+          <div class="glossary-term-def">A formal request to your insurance company to reconsider a denial or underpayment decision. You typically have 180 days from the date of denial to file an internal appeal.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Abuse (Medical Billing)</div>
+          <div class="glossary-term-def">Abuse in medical billing refers to practices that are inconsistent with sound medical, business, or fiscal practices — and that result in unnecessary costs or improper payments. Unlike fraud, abuse does not necessarily involve intentional deception. Examples include billing for services that were not medically necessary, charging excessively for services or supplies, or routinely waiving patient copays or deductibles without cause. The line between abuse and fraud can be blurry, and repeated patterns of abuse may be investigated as fraud. If you believe a provider is engaging in abusive billing practices, you can report it to your insurance company or your state's insurance commissioner.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">B</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Balance Billing</div>
+          <div class="glossary-term-def">When a provider bills you for the difference between their charge and the insurance allowed amount. In-network providers generally cannot balance bill you. Out-of-network providers may be able to, depending on your plan and state laws.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Bundling</div>
+          <div class="glossary-term-def">When insurance pays a single rate for multiple services performed together, rather than paying for each separately. Unbundling (charging separately for procedures normally bundled) is a common billing error.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">C</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Claim</div>
+          <div class="glossary-term-def">A formal request submitted by a provider to your insurance company for payment for services rendered.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Coinsurance</div>
+          <div class="glossary-term-def">Your share of the cost of a covered service after you've paid your deductible. Expressed as a percentage — for example, if you have 20% coinsurance, you pay 20% and insurance pays 80%.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Copay (Copayment)</div>
+          <div class="glossary-term-def">A fixed dollar amount you pay for a covered service, usually at the time of service. For example, a $25 copay for an office visit.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">CPT Code</div>
+          <div class="glossary-term-def">Current Procedural Terminology code. A 5-digit standardized code that describes a specific medical service or procedure. CPT codes are used by providers to bill insurance and determine payment amounts.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">D</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Deductible</div>
+          <div class="glossary-term-def">The amount you pay for covered services before your insurance begins to pay. For example, if your deductible is $1,500, you pay the first $1,500 of covered services each year.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Denial</div>
+          <div class="glossary-term-def">A decision by your insurance company not to pay for all or part of a claim. Denials must come with a reason code and you have the right to appeal.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Duplicate Billing</div>
+          <div class="glossary-term-def">When the same service is billed to insurance more than once. A common billing error that can result in you being charged twice for a single service.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">E</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">EOB (Explanation of Benefits)</div>
+          <div class="glossary-term-def">A document sent by your insurance company after a claim is processed. It shows what was billed, what insurance paid, and what you may owe. An EOB is not a bill — it is a statement of how a claim was processed.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">External Review</div>
+          <div class="glossary-term-def">An independent review of an insurance decision by a third party not affiliated with your insurance company. You may request an external review after your internal appeal is denied.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">F</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Fraud (Medical Billing)</div>
+          <div class="glossary-term-def">Medical billing fraud is the intentional submission of false or misleading information to obtain payment that would not otherwise be covered. Examples include billing for services that were never provided, misrepresenting a diagnosis to justify a procedure, using a different provider's name or credentials on a claim, or falsifying records. Fraud is illegal and can result in criminal charges, fines, and exclusion from insurance programs. It is different from billing errors, which are unintentional mistakes, though the financial impact on patients can be similar. If you suspect you have been a victim of medical billing fraud — for example, you receive a bill or an EOB for a service you never received — contact your insurance company's fraud hotline and consider reporting it to your state's attorney general or the U.S. Department of Health and Human Services Office of Inspector General.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">I</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">ICD-10 Code</div>
+          <div class="glossary-term-def">International Classification of Diseases, 10th Revision code. Describes a patient's diagnosis or medical condition. Must logically align with the CPT procedure codes submitted — a mismatch can cause claim denial.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">In-Network</div>
+          <div class="glossary-term-def">A provider who has a contract with your insurance company. In-network providers have agreed on set rates, typically resulting in lower costs for you.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Itemized Bill</div>
+          <div class="glossary-term-def">A detailed bill that lists every individual service, the corresponding CPT code, the date of service, and the charge for each item. You are entitled to request one from any provider.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">M</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Medical Necessity</div>
+          <div class="glossary-term-def">Insurance's determination that a service is appropriate, reasonable, and necessary for the diagnosis and treatment of the patient's condition. Services deemed not medically necessary are commonly denied.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Member ID</div>
+          <div class="glossary-term-def">Your unique identification number on your insurance card. Always verify this number matches what appears on your EOB and any claims submitted by providers.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">O</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Out-of-Network</div>
+          <div class="glossary-term-def">A provider who does not have a contract with your insurance company. Services from out-of-network providers are typically covered at a lower rate or not at all, depending on your plan.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Out-of-Pocket Maximum</div>
+          <div class="glossary-term-def">The most you will have to pay in a plan year for covered services. After reaching this amount, insurance pays 100% of covered services for the rest of the plan year.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">P</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Prior Authorization (Prior Auth)</div>
+          <div class="glossary-term-def">Approval from your insurance company required before receiving certain services or medications. If prior auth is required and not obtained, the claim may be denied.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Peer-to-Peer Review (P2P)</div>
+          <div class="glossary-term-def">A peer-to-peer review is a phone call between your doctor and a medical reviewer at the insurance company, typically requested after a denial based on medical necessity. Your doctor speaks directly with the insurer's physician reviewer to explain why the service was clinically appropriate. A peer-to-peer call is not a formal appeal — it is an informal step that happens before or instead of the appeals process. It can be very effective, and many denials are reversed after a successful P2P call. If your claim is denied for medical necessity, ask your doctor's office whether they can request a peer-to-peer review with the insurance company.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Premium</div>
+          <div class="glossary-term-def">The monthly amount you pay for your insurance coverage, regardless of whether you use medical services.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">R</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Reconsideration</div>
+          <div class="glossary-term-def">A reconsideration is an informal request to have an insurance company take another look at a denied claim — it is different from a formal appeal. While an appeal is a structured process with legal timelines and rights, a reconsideration is typically a less formal first step where you or your provider call or write to the insurer and ask them to review the decision again, often with additional information or clarification. Not all insurers use the term "reconsideration" — some call it an informal review or a pre-appeal review. A reconsideration does not typically reset the clock on your formal appeal deadline, so if it is unsuccessful, you should still file a formal appeal within the required timeframe.</div>
+        </div>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Remittance Advice</div>
+          <div class="glossary-term-def">A document sent to providers showing how a claim was processed and paid. Similar to an EOB but sent to the provider instead of the patient.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">U</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Upcoding</div>
+          <div class="glossary-term-def">Billing for a more expensive service or procedure than was actually performed. One of the most common forms of medical billing fraud and error. Detectable by comparing CPT codes on the bill to the clinical record.</div>
+        </div>
+      </div>
+
+      <div class="glossary-letter">
+        <span class="glossary-letter-label">W</span>
+        <div class="glossary-term">
+          <div class="glossary-term-name">Waste (Medical Billing)</div>
+          <div class="glossary-term-def">Waste in medical billing refers to the overuse of services or other practices that result in unnecessary costs to the healthcare system — without any deliberate intent to deceive. Unlike fraud, waste is not intentional, and unlike abuse, it may not even involve inappropriate practices by the provider. Examples include ordering more tests than are clinically necessary, prescribing brand-name medications when generics are available, or inefficient use of resources that drives up costs. Waste is a major contributor to inflated healthcare costs and can result in higher premiums and out-of-pocket expenses for patients. While waste is harder to identify on an individual bill than fraud or abuse, being aware of it can help you have informed conversations with your provider about whether all ordered services are truly necessary.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- wave parch-50 → forest-900 -->
+<!-- ══ HELPFUL LINKS ════════════════════════════════════════ -->
+<section class="resource-section" id="links">
+  <div class="section-inner">
+    <p class="section-eyebrow fade-up">External Resources</p>
+    <h2 class="section-heading fade-up d1">Helpful Links</h2>
+    <p class="section-sub fade-up d2">Free, publicly available tools for looking up the codes that appear on your bills and EOBs.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px" class="fade-up d1">
+
+      <!-- CPT Code Lookup -->
+      <div style="background:#fff;border:1px solid var(--parch-200);border-radius:4px;overflow:hidden;box-shadow:0 2px 12px rgba(26,61,78,.06);">
+        <div style="background:var(--forest-800);padding:24px 28px;">
+          <p style="font-size:.65rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-400);margin-bottom:8px;">CPT Code Lookup</p>
+          <h3 style="font-family:'Oswald',sans-serif;font-size:1.3rem;font-weight:600;color:var(--parch-100);line-height:1.2em;">AAPC Code Reference</h3>
+        </div>
+        <div style="padding:28px;">
+          <p style="font-size:.9375rem;line-height:1.72;color:var(--text-body);opacity:.78;margin-bottom:20px;">The AAPC (American Academy of Professional Coders) offers a free, publicly available CPT code lookup tool. You can search by code number or keyword to find descriptions of medical procedures and services — the same codes that appear on your bill and EOB.</p>
+          <a href="https://www.aapc.com/codes/cpt-codes-range/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;font-family:'Raleway',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-dark);background:var(--gold-500);padding:11px 22px;border-radius:3px;text-decoration:none;transition:background .2s;box-shadow:0 3px 14px rgba(242,168,90,.3);">Look Up CPT Codes
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- ICD-10 Code Lookup -->
+      <div style="background:#fff;border:1px solid var(--parch-200);border-radius:4px;overflow:hidden;box-shadow:0 2px 12px rgba(26,61,78,.06);">
+        <div style="background:var(--forest-800);padding:24px 28px;">
+          <p style="font-size:.65rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-400);margin-bottom:8px;">ICD-10 Code Lookup</p>
+          <h3 style="font-family:'Oswald',sans-serif;font-size:1.3rem;font-weight:600;color:var(--parch-100);line-height:1.2em;">ICD10Data.com</h3>
+        </div>
+        <div style="padding:28px;">
+          <p style="font-size:.9375rem;line-height:1.72;color:var(--text-body);opacity:.78;margin-bottom:20px;">ICD10Data.com is a free, publicly available reference for ICD-10-CM diagnosis codes. You can search by code or by condition to find the diagnosis descriptions that appear on your medical records, bills, and EOBs — and understand whether your diagnosis supports the procedures that were billed.</p>
+          <a href="https://www.icd10data.com/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;font-family:'Raleway',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-dark);background:var(--gold-500);padding:11px 22px;border-radius:3px;text-decoration:none;transition:background .2s;box-shadow:0 3px 14px rgba(242,168,90,.3);">Look Up ICD-10 Codes
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Report Fraud, Waste & Abuse -->
+      <div style="background:#fff;border:1px solid var(--parch-200);border-radius:4px;overflow:hidden;box-shadow:0 2px 12px rgba(26,61,78,.06);">
+        <div style="background:var(--forest-800);padding:24px 28px;">
+          <p style="font-size:.65rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-400);margin-bottom:8px;">Report Fraud, Waste &amp; Abuse</p>
+          <h3 style="font-family:'Oswald',sans-serif;font-size:1.3rem;font-weight:600;color:var(--parch-100);line-height:1.2em;">HHS Office of Inspector General</h3>
+        </div>
+        <div style="padding:28px;">
+          <p style="font-size:.9375rem;line-height:1.72;color:var(--text-body);opacity:.78;margin-bottom:20px;">The U.S. Department of Health and Human Services Office of Inspector General (HHS OIG) is the official federal resource for reporting suspected healthcare fraud, waste, and abuse. This includes billing for services not provided, upcoding, identity theft on claims, and other fraudulent practices. Reports can be made online, by phone, or by mail — and you may remain anonymous.</p>
+          <a href="https://oig.hhs.gov/fraud/report-fraud/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;font-family:'Raleway',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-dark);background:var(--gold-500);padding:11px 22px;border-radius:3px;text-decoration:none;transition:background .2s;box-shadow:0 3px 14px rgba(242,168,90,.3);">Report Fraud to HHS OIG
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:28px;padding:16px 20px;background:rgba(26,143,160,.08);border-left:3px solid var(--forest-600);border-radius:0 4px 4px 0;" class="fade-up d2">
+      <p style="font-size:.875rem;line-height:1.65;color:var(--text-body);opacity:.75;"><strong>Note:</strong> These are third-party reference tools provided for educational purposes. Code descriptions can vary by payer and plan year. Always compare codes to your specific EOB and contact your insurer or provider if you have questions about how a code was applied to your claim.</p>
+    </div>
+  </div>
+</section>
+
+<div class="wave-wrap" style="background:var(--parch-50)">
+  <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style="display:block;width:100%;height:64px">
+    <path d="M0,64 C240,0 480,64 720,28 C960,-8 1200,58 1440,36 L1440,0 L0,0Z" fill="var(--forest-900)"/>
+  </svg>
+</div>
+
+
+<!-- CTA -->
+<section class="cta-strip">
+  <div style="position:relative;z-index:2;max-width:700px;margin:0 auto">
+    <h2 class="cta-heading fade-up">Ready to Use<br>Your Knowledge?</h2>
+    <p class="cta-sub fade-up d1">The interactive navigator walks you through exactly what to do based on the document you received.</p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap" class="fade-up d2">
+      <a href="tool.html" class="btn btn-gold">Launch Navigator Tool</a>
+      <a href="steps.html" class="btn btn-parch">Read the 4-Step Guide</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="navibill_logo-2.png" alt="NaviBill" class="footer-logo">
+      <div>
+        <div class="footer-brand-name">NaviBill</div>
+        <p class="footer-tagline">Your Compass Through the Bermuda Triangle of Medical Billing.</p>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="steps.html">The 4-Step Guide</a></li>
+        <li><a href="tool.html">Interactive Tool</a></li>
+        <li><a href="about.html">About NaviBill</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Resources</div>
+      <ul class="footer-links">
+        <li><a href="#checklists">Checklists</a></li>
+        <li><a href="#letters">Sample Letters</a></li>
+        <li><a href="#glossary">Billing Glossary</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Learn</div>
+      <ul class="footer-links">
+        <li><a href="steps.html#coding">CPT Codes</a></li>
+        <li><a href="steps.html#forms">EOB Explained</a></li>
+        <li><a href="steps.html#claims">Denial Rights</a></li>
+        <li><a href="steps.html#billing">Lab Billing</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 NaviBill. Not legal or medical advice. For educational purposes only.</p>
+  </div>
+</footer>
+
+
+<script>
+  // Checklist toggle
+  function toggleCheck(item) {
+    item.classList.toggle('checked');
+  }
+
+  function resetChecklist(id) {
+    document.getElementById(id).querySelectorAll('.checklist-item').forEach(i => i.classList.remove('checked'));
+  }
+
+  // Letter toggle
+  function toggleLetter(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.letter-toggle');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    header.classList.toggle('open', !isOpen);
+    toggle.textContent = isOpen ? 'View Template ↓' : 'Hide Template ↑';
+  }
+
+  // Glossary search
+  function filterGlossary(query) {
+    const q = query.toLowerCase().trim();
+    document.querySelectorAll('.glossary-term').forEach(term => {
+      const name = term.querySelector('.glossary-term-name').textContent.toLowerCase();
+      const def = term.querySelector('.glossary-term-def').textContent.toLowerCase();
+      term.classList.toggle('hidden', q && !name.includes(q) && !def.includes(q));
+    });
+    document.querySelectorAll('.glossary-letter').forEach(section => {
+      const visible = [...section.querySelectorAll('.glossary-term')].some(t => !t.classList.contains('hidden'));
+      section.style.display = visible ? '' : 'none';
+    });
+  }
+
+  // Resource tab active state
+  const tabs = document.querySelectorAll('.resource-tab');
+  const sectionIds = ['checklists', 'letters', 'glossary', 'links'];
+  const tabObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tabs.forEach(t => t.classList.remove('active'));
+        const idx = sectionIds.indexOf(e.target.id);
+        if (idx >= 0) tabs[idx].classList.add('active');
+      }
+    });
+  }, { threshold: 0.35 });
+  sectionIds.forEach(id => { const el = document.getElementById(id); if (el) tabObs.observe(el); });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

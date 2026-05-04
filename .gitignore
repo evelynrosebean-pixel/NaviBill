@@ -1,0 +1,21 @@
+# Dev screenshots
+temporary screenshots/
+
+# Dev scripts
+screenshot.py
+screenshot_el.py
+screenshot_section.py
+serve.py
+measure.py
+CLAUDE.md
+
+# Source documents (not needed in the deployed repo)
+*.docx
+pdf_pages/
+
+# Legacy files
+Our vision, your destination.html
+Our vision, your destination.pdf
+
+# macOS
+.DS_Store

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — NaviBill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Bitter:ital,wght@1,400;1,600;1,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest-900: #0B4A5A;
+      --forest-800: #0E5A72;
+      --forest-700: #1A6B82;
+      --forest-600: #1A8FA0;
+      --gold-800:   #B8622C;
+      --gold-700:   #D4763A;
+      --gold-600:   #E8924A;
+      --gold-500:   #F2A85A;
+      --gold-400:   #F7E06A;
+      --parch-300:  #8DE8E0;
+      --parch-200:  #C0F0EC;
+      --parch-100:  #FFFBE7;
+      --parch-50:   #EFF9F7;
+      --text-dark:  #0B2A3A;
+      --text-body:  #1A3D4E;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Raleway', sans-serif; color: var(--text-body); background: var(--parch-50); overflow-x: hidden; }
+    h1, h2, h3, h4 { font-family: 'Oswald', sans-serif; }
+
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .10s; } .d2 { transition-delay: .20s; } .d3 { transition-delay: .32s; }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 900; display: flex; align-items: center; justify-content: space-between; padding: 20px 64px; background: rgba(11,74,90,.97); box-shadow: 0 2px 28px rgba(0,0,0,.4); backdrop-filter: blur(10px); }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo { height: 36px; }
+    .nav-wordmark { font-family: 'Oswald',sans-serif; font-size: 1.15rem; font-weight: 700; letter-spacing: -.02em; color: var(--parch-100); }
+    .nav-links { display: flex; align-items: center; gap: 2.25rem; list-style: none; }
+    .nav-links a { font-size: .75rem; font-weight: 500; color: rgba(255,251,231,.55); text-decoration: none; letter-spacing: .07em; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--parch-100); }
+    .nav-cta { font-family: 'Raleway',sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--text-dark); background: var(--gold-500); padding: 9px 22px; border-radius: 3px; text-decoration: none; transition: background .2s; box-shadow: 0 3px 14px rgba(242,168,90,.35); }
+    .nav-cta:hover { background: var(--gold-400); }
+
+    /* BUTTONS */
+    .btn { display: inline-flex; align-items: center; gap: 8px; font-family: 'Raleway',sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; text-decoration: none; padding: 13px 30px; border-radius: 3px; border: 1.5px solid transparent; cursor: pointer; transition: background .2s, color .2s, transform .15s, box-shadow .2s; }
+    .btn:active { transform: translateY(1px); }
+    .btn-gold { color: var(--text-dark); background: var(--gold-500); border-color: var(--gold-500); box-shadow: 0 4px 22px rgba(242,168,90,.38); }
+    .btn-gold:hover { background: var(--gold-400); border-color: var(--gold-400); }
+    .btn-parch { color: var(--parch-100); border-color: rgba(255,251,231,.38); background: transparent; }
+    .btn-parch:hover { background: rgba(255,251,231,.09); border-color: rgba(255,251,231,.7); }
+    .btn-lg { font-size: .85rem; padding: 15px 38px; letter-spacing: .1em; }
+
+    /* HERO */
+    .page-hero {
+      position: relative;
+      background: var(--forest-900);
+      min-height: 80vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 140px 64px 110px;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 75% 60% at 50% 95%, rgba(26,143,160,.18) 0%, transparent 65%),
+        radial-gradient(ellipse 42% 50% at 6% 38%, rgba(11,74,90,.52) 0%, transparent 60%),
+        radial-gradient(ellipse 36% 44% at 94% 25%, rgba(242,168,90,.06) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .page-hero-inner { position: relative; z-index: 2; max-width: 1200px; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; }
+
+    .hero-mission-label {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold-500);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-mission-label::before { content: ''; display: block; width: 26px; height: 1.5px; background: currentColor; }
+
+    .hero-statement {
+      font-family: 'Oswald',sans-serif;
+      font-size: clamp(2.5rem, 5vw, 7rem);
+      font-weight: 700;
+      font-style: italic;
+      line-height: .96em;
+      letter-spacing: -.03em;
+      color: var(--parch-100);
+    }
+    .hero-statement em { font-style: normal; color: var(--gold-400); }
+
+    .hero-mission-body {
+      font-size: 1.0625rem;
+      line-height: 1.78;
+      color: rgba(255,251,231,.55);
+    }
+    .hero-quote {
+      font-family: 'Oswald',sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      font-style: italic;
+      line-height: 1.4em;
+      color: var(--parch-100);
+      border-left: 3px solid var(--gold-500);
+      padding-left: 24px;
+      margin-bottom: 24px;
+    }
+
+    /* WHY SECTION */
+    .why-section {
+      background: var(--parch-50);
+      padding: 100px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .why-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .why-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .why-heading { font-family: 'Oswald',sans-serif; font-size: clamp(2rem, 3.5vw, 4.5rem); font-weight: 700; font-style: italic; line-height: 1.04em; letter-spacing: -.02em; color: var(--text-dark); margin-bottom: 28px; }
+    .why-body { font-size: 1.0625rem; line-height: 1.78; color: var(--text-body); opacity: .76; margin-bottom: 18px; }
+
+    .principle-list { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; }
+    .principle-item {
+      display: flex;
+      gap: 16px;
+      background: #fff;
+      border: 1px solid var(--parch-200);
+      padding: 22px 24px;
+      transition: border-color .22s, box-shadow .22s;
+    }
+    .principle-item:hover { border-color: var(--parch-300); box-shadow: 0 4px 20px rgba(26,61,78,.07); }
+    .principle-icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 2px; }
+    .principle-title { font-family: 'Oswald',sans-serif; font-size: 1rem; font-weight: 600; font-style: italic; color: var(--text-dark); margin-bottom: 4px; }
+    .principle-desc { font-size: .875rem; line-height: 1.65; color: var(--text-body); opacity: .65; }
+
+    /* STORIES SECTION */
+    .stories-section {
+      background: var(--forest-800);
+      padding: 100px 64px;
+    }
+    .stories-heading {
+      font-family: 'Oswald',sans-serif;
+      font-size: clamp(2rem, 4vw, 5.5rem);
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1.02em;
+      letter-spacing: -.025em;
+      color: var(--parch-100);
+      margin-bottom: 16px;
+      max-width: 700px;
+    }
+    .stories-sub { font-size: 1rem; color: rgba(255,251,231,.48); margin-bottom: 64px; max-width: 560px; }
+
+    .story-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+    .story-card {
+      background: var(--forest-700);
+      border: 1px solid rgba(255,251,231,.09);
+      padding: 44px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: background .25s;
+    }
+    .story-card:hover { background: var(--forest-600); }
+    .story-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold-600), var(--gold-400));
+    }
+
+    .story-amount {
+      font-family: 'Oswald',sans-serif;
+      font-size: 4rem;
+      font-weight: 700;
+      letter-spacing: -.04em;
+      color: var(--gold-400);
+      line-height: .95em;
+      margin-bottom: 6px;
+    }
+    .story-label {
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(247,224,106,.6);
+      margin-bottom: 24px;
+    }
+    .story-title {
+      font-family: 'Oswald',sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--parch-100);
+      margin-bottom: 14px;
+      line-height: 1.3em;
+    }
+    .story-text {
+      font-size: .9rem;
+      line-height: 1.72;
+      color: rgba(255,251,231,.55);
+    }
+    .story-lesson {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,251,231,.1);
+    }
+    .story-lesson-icon { flex-shrink: 0; font-size: .85rem; margin-top: 2px; }
+    .story-lesson-text { font-size: .82rem; line-height: 1.6; color: rgba(255,251,231,.5); font-style: italic; }
+
+    /* X mark watermark */
+    .story-x-mark {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      opacity: .08;
+    }
+
+    /* DISCLAIMER */
+    .disclaimer-section {
+      background: var(--parch-50);
+      padding: 72px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .disclaimer-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .disclaimer-inner { max-width: 800px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
+    .disclaimer-title { font-family: 'Oswald',sans-serif; font-size: 1.5rem; font-weight: 600; font-style: italic; color: var(--text-dark); margin-bottom: 16px; }
+    .disclaimer-text { font-size: .9375rem; line-height: 1.72; color: var(--text-body); opacity: .65; }
+
+    /* CTA */
+    .cta-strip {
+      background: var(--forest-900);
+      padding: 100px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-strip::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 55% 70% at 50% 50%, rgba(242,168,90,.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-heading { font-family: 'Oswald',sans-serif; font-size: clamp(2rem, 4vw, 5.5rem); font-weight: 700; font-style: italic; line-height: 1.0em; letter-spacing: -.025em; color: var(--parch-100); margin-bottom: 16px; }
+    .cta-sub { font-size: 1rem; color: rgba(255,251,231,.46); margin-bottom: 44px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+    /* FOOTER */
+    footer { background: #fff; padding: 64px 64px 36px; border-top: 1px solid rgba(26,61,78,.07); }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2.4fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(26,61,78,.07); margin-bottom: 28px; }
+    .footer-brand { display: flex; align-items: flex-start; gap: 14px; }
+    .footer-logo { height: 48px; }
+    .footer-brand-name { font-family: 'Oswald',sans-serif; font-size: 1.125rem; font-weight: 700; color: var(--forest-800); margin-bottom: 8px; }
+    .footer-tagline { font-size: .875rem; line-height: 1.7; color: var(--text-body); opacity: .52; max-width: 230px; }
+    .footer-col-title { font-size: .65rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-600); margin-bottom: 16px; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { font-size: .875rem; color: var(--text-body); text-decoration: none; opacity: .58; transition: opacity .2s; }
+    .footer-links a:hover { opacity: 1; }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-copy { font-size: .78rem; color: var(--text-body); opacity: .32; }
+    .footer-disc { font-size: .72rem; color: var(--text-body); opacity: .28; font-style: italic; }
+
+    .wave-wrap { display: block; line-height: 0; overflow: hidden; }
+
+    @media (max-width: 1024px) {
+      .page-hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .why-inner { grid-template-columns: 1fr; gap: 48px; }
+      .story-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav { padding: 14px 24px; } .nav-links { display: none; }
+      .page-hero { padding: 130px 24px 80px; min-height: auto; }
+      .why-section { padding: 72px 24px; }
+      .stories-section { padding: 72px 24px; }
+      .disclaimer-section { padding: 56px 24px; }
+      .cta-strip { padding: 72px 24px; }
+      footer { padding: 48px 24px 28px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 540px) { .footer-inner { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <img src="navibill_logo-2.png" alt="NaviBill" class="nav-logo">
+      <span class="nav-wordmark">NaviBill</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="steps.html">The Guide</a></li>
+      <li><a href="tool.html">Navigator Tool</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="resources.html">Resources</a></li>
+    </ul>
+    <a href="tool.html" class="nav-cta">Launch Tool</a>
+  </nav>
+</header>
+
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+
+  <!-- Tropical right fronds -->
+  <svg style="position:absolute;top:0;right:0;height:100%;width:220px;pointer-events:none;z-index:1;opacity:.65" viewBox="0 0 220 700" preserveAspectRatio="xMaxYMin slice">
+    <path d="M240,0 C210,90 190,200 215,360 C228,426 248,408 250,340 C260,240 252,90 240,0Z" fill="#0A2E40"/>
+    <path d="M270,0 C246,100 230,220 252,388 C264,452 282,434 284,365 C294,262 285,100 270,0Z" fill="#082038"/>
+    <path d="M220,0 C196,80 182,178 205,322 C216,385 233,368 235,302 C244,204 235,74 220,0Z" fill="#060e0a" opacity=".78"/>
+  </svg>
+
+  <div class="page-hero-inner">
+    <div>
+      <p class="hero-mission-label fade-up">Our Mission</p>
+      <h1 class="hero-statement fade-up d1">
+        We're here to <em>help</em><br>you fight back.
+      </h1>
+    </div>
+    <div class="fade-up d2">
+      <p class="hero-quote">"We're here to help everyday people decode the chaos of medical billing and save money in the process."</p>
+      <p class="hero-mission-body">Medical billing is one of the most opaque systems ordinary people are forced to navigate alone. NaviBill exists to change that — with plain-language explanations, guided tools, and the knowledge to spot errors before you overpay.</p>
+    </div>
+  </div>
+
+  <svg style="position:absolute;bottom:0;left:0;right:0;width:100%;pointer-events:none;z-index:1" viewBox="0 0 1440 72" preserveAspectRatio="none">
+    <path d="M0,42 C240,72 480,8 720,50 C960,92 1200,12 1440,44 L1440,72 L0,72Z" fill="var(--parch-50)"/>
+  </svg>
+</section>
+
+
+<!-- WHY NAVIBILL -->
+<section class="why-section">
+  <div class="why-inner">
+
+    <div>
+      <p style="font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-600);margin-bottom:20px;display:flex;align-items:center;gap:12px" class="fade-up">
+        <span style="display:block;width:24px;height:1.5px;background:currentColor"></span>
+        Why We Exist
+      </p>
+      <h2 class="why-heading fade-up d1">The system is<br>complicated on purpose.</h2>
+      <p class="why-body fade-up d2">Insurance companies, doctors' offices, and laboratories all speak different billing languages — CPT codes, ICD-10 codes, EOBs, and adjustment codes. When there's a gap between them, you receive a bill for someone else's error.</p>
+      <p class="why-body fade-up d2">NaviBill translates this system into plain English. We don't file appeals for you or provide legal advice — we give you the knowledge to advocate for yourself with confidence.</p>
+    </div>
+
+    <div>
+      <div class="principle-list fade-up d1">
+        <div class="principle-item">
+          <span class="principle-icon">🧭</span>
+          <div>
+            <div class="principle-title">Clear Navigation</div>
+            <p class="principle-desc">Step-by-step guidance for every document type — EOBs, denial letters, provider bills, and more.</p>
+          </div>
+        </div>
+        <div class="principle-item">
+          <span class="principle-icon">🗺️</span>
+          <div>
+            <div class="principle-title">Plain Language</div>
+            <p class="principle-desc">No medical jargon, no legal fine print. We explain billing in terms that actually make sense.</p>
+          </div>
+        </div>
+        <div class="principle-item">
+          <span class="principle-icon">⚓</span>
+          <div>
+            <div class="principle-title">Grounded in Reality</div>
+            <p class="principle-desc">Every lesson is based on real billing situations — not hypothetical scenarios from a textbook.</p>
+          </div>
+        </div>
+        <div class="principle-item">
+          <span class="principle-icon">🏴‍☠️</span>
+          <div>
+            <div class="principle-title">Empowerment Over Fear</div>
+            <p class="principle-desc">Billing chaos thrives when patients feel too intimidated to ask questions. We change that.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- wave parch-50 → forest-800 -->
+<div class="wave-wrap" style="background:var(--parch-50)">
+  <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style="display:block;width:100%;height:64px">
+    <path d="M0,64 C360,0 720,64 1080,22 C1260,2 1380,52 1440,32 L1440,0 L0,0Z" fill="var(--forest-800)"/>
+  </svg>
+</div>
+
+
+<!-- STORIES -->
+<section class="stories-section">
+  <div style="max-width:1200px;margin:0 auto">
+    <p style="font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,224,106,.6);margin-bottom:18px;display:flex;align-items:center;gap:12px" class="fade-up">
+      <span style="display:block;width:24px;height:1.5px;background:currentColor"></span>
+      Real-World Savings Stories
+    </p>
+    <h2 class="stories-heading fade-up d1">When patients<br>knew what to look for.</h2>
+    <p class="stories-sub fade-up d2">These are real billing situations — anonymized, but true. Small pieces of knowledge made the difference between overpaying and keeping hundreds of dollars.</p>
+
+    <div class="story-grid">
+
+      <div class="story-card fade-up">
+        <svg class="story-x-mark" viewBox="0 0 48 48">
+          <line x1="2" y1="2" x2="46" y2="46" stroke="var(--gold-400)" stroke-width="5" stroke-linecap="round"/>
+          <line x1="46" y1="2" x2="2" y2="46" stroke="var(--gold-400)" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <div class="story-amount">$800</div>
+        <div class="story-label">Recovered</div>
+        <div class="story-title">C-Section Billing Error</div>
+        <p class="story-text">After a C-section delivery, a patient received a bill even though she had met her maximum out of pocket cost and had only gone to in-network providers. The charge was for cord blood collection, which she had declined at the hospital before the procedure. By comparing the CPT codes between the hospital bill and her EOB, she discovered that part of the procedure had been incorrectly coded for a different type of cord blood collection that was not covered — resulting in an $800 overcharge. She called the hospital billing department, referenced the correct codes, and the account was corrected and she never received another bill for the procedure.</p>
+        <div class="story-lesson">
+          <span class="story-lesson-icon">💡</span>
+          <span class="story-lesson-text">The lesson: Always compare CPT codes on your bill to the codes on your EOB. A single wrong digit can cost hundreds.</span>
+        </div>
+      </div>
+
+      <div class="story-card fade-up d1">
+        <svg class="story-x-mark" viewBox="0 0 48 48">
+          <line x1="2" y1="2" x2="46" y2="46" stroke="var(--gold-400)" stroke-width="5" stroke-linecap="round"/>
+          <line x1="46" y1="2" x2="2" y2="46" stroke="var(--gold-400)" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <div class="story-amount">$675</div>
+        <div class="story-label">Recovered</div>
+        <div class="story-title">Tongue Lesion Overpayment</div>
+        <p class="story-text">A patient scheduled a routine tongue lesion removal and a prior authorization was approved for the service. On the day of the service, she was asked to pay $975 up front for the procedure in case the clinic did not get the amount they wanted from the insurer. This amount was based on an estimate of the service to be performed. The procedure performed was much more simple than what the clinic had used for their estimate. After requesting an itemized bill and comparing it to the EOB, she was able to request a refund for the difference between what was paid up front and the actual cost of the procedure. The clinic refunded $675.</p>
+        <div class="story-lesson">
+          <span class="story-lesson-icon">💡</span>
+          <span class="story-lesson-text">The lesson: If you pay in advance, always compare your EOB to what you paid once the claim is processed — and request a refund for any overpayment. Clinics will not always proactively issue one. This story also illustrates upcoding: upcoding is when a provider bills for a more complex or expensive service than what was actually performed. It is one of the most common billing errors, whether intentional or accidental, and can result in you paying more than you owe.</span>
+        </div>
+      </div>
+
+      <div class="story-card fade-up d2">
+        <svg class="story-x-mark" viewBox="0 0 48 48">
+          <line x1="2" y1="2" x2="46" y2="46" stroke="var(--gold-400)" stroke-width="5" stroke-linecap="round"/>
+          <line x1="46" y1="2" x2="2" y2="46" stroke="var(--gold-400)" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <div class="story-amount">$450</div>
+        <div class="story-label">Recovered</div>
+        <div class="story-title">Urgent Care Claim Error</div>
+        <p class="story-text">A mother took her children for three different urgent care visits at the same location. The claims for each visit were submitted to insurance with the wrong identification information for the urgent care location. All of the claims were incorrectly processed as out of network. Under the family's health plan, each visit should have only cost a $25 copay, but instead they were charged $175 for each visit. By reviewing the EOB, calling the clinic's billing department and explaining the administrative error, the claims were resubmitted correctly and the family was refunded $450.</p>
+        <div class="story-lesson">
+          <span class="story-lesson-icon">💡</span>
+          <span class="story-lesson-text">The lesson: Always review your EOB. If a clinic or other facility is processed as out of network when it is listed as in network with your insurer, an error may have occurred and it is worth contacting the provider's billing department to investigate.</span>
+        </div>
+      </div>
+
+      <div class="story-card fade-up d3" style="border-color:rgba(247,224,106,.2)">
+        <svg class="story-x-mark" viewBox="0 0 48 48">
+          <line x1="2" y1="2" x2="46" y2="46" stroke="var(--gold-400)" stroke-width="5" stroke-linecap="round"/>
+          <line x1="46" y1="2" x2="2" y2="46" stroke="var(--gold-400)" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <div style="font-family:'Oswald',sans-serif;font-size:2.8rem;font-weight:700;letter-spacing:-.04em;color:var(--gold-400);line-height:.95em;margin-bottom:6px">Denial<br><span style="font-size:2rem">Prevented</span></div>
+        <div class="story-label" style="margin-bottom:24px">Likely Denial Avoided</div>
+        <div class="story-title">Sleep Study Hold Letter</div>
+        <p class="story-text">A patient received a hold letter for a sleep study claim — insurance needed additional documentation from the ordering physician. Without understanding what a hold letter meant, she might have waited and received a denial. Instead, she called her doctor's office immediately, the clinical notes were submitted within 48 hours, and the claim was approved — avoiding what would likely have been a bill for thousands of dollars.</p>
+        <div class="story-lesson">
+          <span class="story-lesson-icon">💡</span>
+          <span class="story-lesson-text">The lesson: A hold letter is not a denial — but it will become one if you don't act. Contact your doctor's office the same day.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- wave forest-800 → parch-50 -->
+<div class="wave-wrap" style="background:var(--forest-800)">
+  <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style="display:block;width:100%;height:64px">
+    <path d="M0,0 C240,64 480,0 720,46 C960,92 1200,10 1440,42 L1440,64 L0,64Z" fill="var(--parch-50)"/>
+  </svg>
+</div>
+
+
+<!-- DISCLAIMER -->
+<section class="disclaimer-section">
+  <div class="disclaimer-inner fade-up">
+    <h3 class="disclaimer-title">A Note on What NaviBill Is and Isn't</h3>
+    <p class="disclaimer-text" style="margin-bottom:16px">NaviBill is an educational resource. We explain how the medical billing system works and help you understand the documents you receive. We do not file appeals, provide legal advice, or guarantee any specific outcome.</p>
+    <p class="disclaimer-text">Every billing situation is unique. If you believe your rights as a patient have been violated, we encourage you to consult a licensed patient advocate, healthcare attorney, or your state insurance commissioner.</p>
+  </div>
+</section>
+
+
+<!-- wave parch-50 → forest-900 -->
+<div class="wave-wrap" style="background:var(--parch-50)">
+  <svg viewBox="0 0 1440 64" preserveAspectRatio="none" style="display:block;width:100%;height:64px">
+    <path d="M0,64 C240,0 480,64 720,28 C960,-8 1200,58 1440,36 L1440,0 L0,0Z" fill="var(--forest-900)"/>
+  </svg>
+</div>
+
+
+<!-- CTA -->
+<section class="cta-strip">
+  <div style="position:relative;z-index:2;max-width:720px;margin:0 auto">
+    <h2 class="cta-heading fade-up">Ready to Navigate?</h2>
+    <p class="cta-sub fade-up d1">Use the interactive tool to get a step-by-step action plan for the document you have in hand.</p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap" class="fade-up d2">
+      <a href="tool.html" class="btn btn-gold btn-lg">Launch the Navigator Tool</a>
+      <a href="steps.html" class="btn btn-parch">Read the 4-Step Guide</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="navibill_logo-2.png" alt="NaviBill" class="footer-logo">
+      <div>
+        <div class="footer-brand-name">NaviBill</div>
+        <p class="footer-tagline">Your Compass Through the Bermuda Triangle of Medical Billing.</p>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="steps.html">The 4-Step Guide</a></li>
+        <li><a href="tool.html">Interactive Tool</a></li>
+        <li><a href="about.html">About NaviBill</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Stories</div>
+      <ul class="footer-links">
+        <li><a href="#stories">C-Section Error ($800)</a></li>
+        <li><a href="#stories">Tongue Lesion ($675)</a></li>
+        <li><a href="#stories">Urgent Care ($450)</a></li>
+        <li><a href="#stories">Sleep Study Saved</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Tools</div>
+      <ul class="footer-links">
+        <li><a href="tool.html">Navigator Tool</a></li>
+        <li><a href="resources.html#checklists">Checklists</a></li>
+        <li><a href="resources.html#letters">Sample Letters</a></li>
+        <li><a href="resources.html#glossary">Glossary</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 NaviBill. Not legal or medical advice. For educational purposes only.</p>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

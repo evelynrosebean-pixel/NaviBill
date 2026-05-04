@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigator Tool — NaviBill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Bitter:ital,wght@1,400;1,600;1,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest-950: #061828;
+      --forest-900: #0B4A5A;
+      --forest-800: #0E5A72;
+      --forest-700: #1A6B82;
+      --forest-600: #1A8FA0;
+      --forest-500: #2BAFC0;
+      --gold-800:   #B8622C;
+      --gold-700:   #D4763A;
+      --gold-600:   #E8924A;
+      --gold-500:   #F2A85A;
+      --gold-400:   #F7E06A;
+      --gold-300:   #FAF0A0;
+      --parch-400:  #5FCFBE;
+      --parch-300:  #8DE8E0;
+      --parch-200:  #C0F0EC;
+      --parch-100:  #FFFBE7;
+      --parch-50:   #EFF9F7;
+      --text-dark:  #0B2A3A;
+      --text-body:  #1A3D4E;
+      --rust-500:   #b04a22;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Raleway', sans-serif; color: var(--text-body); background: var(--forest-900); overflow-x: hidden; }
+    h1, h2, h3, h4 { font-family: 'Oswald', sans-serif; }
+
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .10s; } .d2 { transition-delay: .20s; } .d3 { transition-delay: .32s; }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 900; display: flex; align-items: center; justify-content: space-between; padding: 20px 64px; background: rgba(11,74,90,.97); box-shadow: 0 2px 28px rgba(0,0,0,.4); backdrop-filter: blur(10px); }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo { height: 36px; }
+    .nav-wordmark { font-family: 'Oswald',sans-serif; font-size: 1.15rem; font-weight: 700; letter-spacing: -.02em; color: var(--parch-100); }
+    .nav-links { display: flex; align-items: center; gap: 2.25rem; list-style: none; }
+    .nav-links a { font-size: .75rem; font-weight: 500; color: rgba(255,251,231,.55); text-decoration: none; letter-spacing: .07em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--parch-100); }
+    .nav-cta { font-family: 'Raleway',sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--text-dark); background: var(--gold-500); padding: 9px 22px; border-radius: 3px; text-decoration: none; transition: background 0.2s; box-shadow: 0 3px 14px rgba(242,168,90,.35); }
+    .nav-cta:hover { background: var(--gold-400); }
+
+    /* BUTTONS */
+    .btn { display: inline-flex; align-items: center; gap: 8px; font-family: 'Raleway',sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; text-decoration: none; padding: 12px 28px; border-radius: 3px; border: 1.5px solid transparent; cursor: pointer; transition: background 0.2s, color 0.2s, transform .15s, box-shadow .2s; }
+    .btn:active { transform: translateY(1px); }
+    .btn-gold { color: var(--text-dark); background: var(--gold-500); border-color: var(--gold-500); box-shadow: 0 4px 20px rgba(242,168,90,.38); }
+    .btn-gold:hover { background: var(--gold-400); border-color: var(--gold-400); }
+    .btn-parch { color: var(--parch-100); border-color: rgba(255,251,231,.38); background: transparent; }
+    .btn-parch:hover { background: rgba(255,251,231,.08); border-color: rgba(255,251,231,.7); }
+    .btn-lg { font-size: .85rem; padding: 15px 38px; letter-spacing: .1em; }
+
+    /* PAGE HERO */
+    .page-hero {
+      position: relative;
+      background: var(--forest-900);
+      padding: 150px 64px 100px;
+      overflow: hidden;
+      text-align: center;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 50% 50%, rgba(242,168,90,.07) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 55% at 8% 35%, rgba(11,74,90,.55) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 48% at 92% 30%, rgba(11,74,90,.5) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    /* DOCUMENT SELECTOR */
+    .tool-section {
+      background: var(--parch-50);
+      padding: 80px 64px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .tool-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .tool-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+
+    .doc-selector-label {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold-600);
+      margin-bottom: 20px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .doc-selector-label::before, .doc-selector-label::after {
+      content: '';
+      display: block;
+      height: 1.5px;
+      width: 40px;
+      background: var(--gold-600);
+      opacity: .5;
+    }
+
+    .doc-title {
+      font-family: 'Oswald',sans-serif;
+      font-size: clamp(1.75rem, 3.5vw, 3.5rem);
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1.1em;
+      letter-spacing: -.02em;
+      color: var(--text-dark);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .doc-subtitle {
+      font-size: 1rem;
+      color: var(--text-body);
+      opacity: .55;
+      text-align: center;
+      margin-bottom: 52px;
+    }
+
+    /* Document Cards */
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 64px;
+    }
+    .doc-card {
+      background: #fff;
+      border: 2px solid var(--parch-200);
+      padding: 32px 28px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color .22s, transform .22s, box-shadow .22s;
+      box-shadow: 0 2px 12px rgba(26,61,78,.06);
+      position: relative;
+      overflow: hidden;
+    }
+    .doc-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gold-500);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .25s ease;
+    }
+    .doc-card:hover { border-color: var(--parch-300); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(26,61,78,.12); }
+    .doc-card:hover::before { transform: scaleX(1); }
+    .doc-card.selected { border-color: var(--forest-600); box-shadow: 0 0 0 3px rgba(58,100,69,.2), 0 8px 32px rgba(26,61,78,.12); }
+    .doc-card.selected::before { transform: scaleX(1); background: var(--forest-600); }
+
+    .doc-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
+    .doc-name { font-family: 'Oswald',sans-serif; font-size: 1.1rem; font-weight: 600; font-style: italic; color: var(--text-dark); margin-bottom: 6px; }
+    .doc-from { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-600); margin-bottom: 10px; }
+    .doc-desc { font-size: .85rem; line-height: 1.62; color: var(--text-body); opacity: .65; }
+
+    /* RESULTS PANEL */
+    .results-panel {
+      display: none;
+      animation: slideIn .4s ease;
+    }
+    .results-panel.active { display: block; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .results-inner {
+      background: #fff;
+      border: 1px solid var(--parch-200);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 48px rgba(26,61,78,.1), 0 2px 12px rgba(26,61,78,.06);
+    }
+
+    .results-header {
+      background: var(--forest-800);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .results-doc-icon { font-size: 2.5rem; }
+    .results-doc-name { font-family: 'Oswald',sans-serif; font-size: 1.75rem; font-weight: 700; font-style: italic; color: var(--parch-100); margin-bottom: 4px; }
+    .results-doc-sub { font-size: .8rem; color: rgba(255,251,231,.55); letter-spacing: .04em; }
+    .results-doc-desc { font-size: .9375rem; line-height: 1.7; color: rgba(255,251,231,.65); max-width: 500px; }
+
+    .results-body { padding: 48px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; }
+
+    .results-steps-title {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--gold-600);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--parch-200);
+    }
+    .result-step {
+      display: flex;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--parch-100);
+    }
+    .result-step:last-child { border-bottom: none; }
+    .result-step-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--forest-800);
+      color: var(--gold-400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .result-step-text { font-size: .9rem; line-height: 1.65; color: var(--text-body); }
+
+    .results-tips-col { display: flex; flex-direction: column; gap: 16px; }
+
+    .result-tip {
+      padding: 16px 18px;
+      border-left: 3px solid var(--gold-500);
+      background: var(--parch-50);
+      border-radius: 0 4px 4px 0;
+    }
+    .result-tip-label { font-size: .62rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-600); margin-bottom: 6px; }
+    .result-tip-text { font-size: .875rem; line-height: 1.65; color: var(--text-body); opacity: .78; }
+
+    .result-warning {
+      padding: 16px 18px;
+      border-left: 3px solid var(--rust-500);
+      background: rgba(176,74,34,.06);
+      border-radius: 0 4px 4px 0;
+    }
+    .result-warning-label { font-size: .62rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--rust-500); margin-bottom: 6px; }
+    .result-warning-text { font-size: .875rem; line-height: 1.65; color: var(--text-body); opacity: .78; }
+
+    .result-action {
+      padding: 18px 18px;
+      background: var(--forest-800);
+      border-radius: 4px;
+      color: var(--parch-100);
+    }
+    .result-action-label { font-size: .62rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-400); margin-bottom: 8px; }
+    .result-action-text { font-size: .875rem; line-height: 1.65; color: rgba(255,251,231,.7); }
+
+    .results-reset {
+      padding: 24px 48px;
+      border-top: 1px solid var(--parch-100);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: var(--parch-50);
+    }
+    .reset-text { font-size: .85rem; color: var(--text-body); opacity: .55; }
+    .reset-btn {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--gold-600);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      padding: 0;
+      transition: color .2s;
+    }
+    .reset-btn:hover { color: var(--gold-500); }
+
+    /* FOOTER */
+    footer { background: var(--forest-900); padding: 64px 64px 36px; border-top: 1px solid rgba(255,251,231,.07); }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2.4fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,251,231,.07); margin-bottom: 28px; }
+    .footer-brand { display: flex; align-items: flex-start; gap: 14px; }
+    .footer-logo { height: 48px; }
+    .footer-brand-name { font-family: 'Oswald',sans-serif; font-size: 1.125rem; font-weight: 700; color: var(--parch-100); margin-bottom: 8px; }
+    .footer-tagline { font-size: .875rem; line-height: 1.7; color: rgba(255,251,231,.42); max-width: 230px; }
+    .footer-col-title { font-size: .65rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-600); margin-bottom: 16px; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { font-size: .875rem; color: rgba(255,251,231,.5); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--parch-100); }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-copy { font-size: .78rem; color: rgba(255,251,231,.28); }
+    .footer-disc { font-size: .72rem; color: rgba(255,251,231,.22); font-style: italic; }
+
+    .wave-wrap { display: block; line-height: 0; overflow: hidden; }
+
+    @media (max-width: 1024px) { .doc-grid { grid-template-columns: repeat(2,1fr); } .results-body { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .nav { padding: 14px 24px; } .nav-links { display: none; }
+      .page-hero { padding: 120px 24px 80px; }
+      .tool-section { padding: 64px 24px 80px; }
+      .doc-grid { grid-template-columns: 1fr; }
+      .results-header { padding: 28px 28px; }
+      .results-body { padding: 28px; }
+      .results-reset { padding: 20px 28px; }
+      footer { padding: 48px 24px 28px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 540px) { .footer-inner { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <img src="navibill_logo-2.png" alt="NaviBill" class="nav-logo">
+      <span class="nav-wordmark">NaviBill</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="steps.html">The Guide</a></li>
+      <li><a href="tool.html" class="active">Navigator Tool</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="resources.html">Resources</a></li>
+    </ul>
+    <a href="tool.html" class="nav-cta">Launch Tool</a>
+  </nav>
+</header>
+
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <!-- Compass rose background -->
+  <svg style="position:absolute;opacity:.04;width:min(500px,55vw);left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none" viewBox="0 0 200 200">
+    <circle cx="100" cy="100" r="92" fill="none" stroke="var(--parch-100)" stroke-width="1.5"/>
+    <circle cx="100" cy="100" r="62" fill="none" stroke="var(--parch-100)" stroke-width=".8"/>
+    <circle cx="100" cy="100" r="18" fill="none" stroke="var(--parch-100)" stroke-width="1.5"/>
+    <polygon points="100,8 105,88 100,78 95,88" fill="var(--parch-100)"/>
+    <polygon points="100,192 105,112 100,122 95,112" fill="var(--parch-100)"/>
+    <polygon points="8,100 88,95 78,100 88,105" fill="var(--parch-100)"/>
+    <polygon points="192,100 112,95 122,100 112,105" fill="var(--parch-100)"/>
+    <text x="100" y="4" text-anchor="middle" font-size="9" fill="var(--parch-100)" font-family="Lora,serif" font-weight="700">N</text>
+    <text x="100" y="200" text-anchor="middle" font-size="9" fill="var(--parch-100)" font-family="Lora,serif">S</text>
+    <text x="4" y="103" text-anchor="middle" font-size="9" fill="var(--parch-100)" font-family="Lora,serif">W</text>
+    <text x="196" y="103" text-anchor="middle" font-size="9" fill="var(--parch-100)" font-family="Lora,serif">E</text>
+  </svg>
+
+  <div style="position:relative;z-index:2;max-width:800px;margin:0 auto">
+    <p style="font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-500);margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:12px" class="fade-up">
+      <span style="display:block;width:26px;height:1.5px;background:currentColor"></span>
+      Interactive Navigator
+      <span style="display:block;width:26px;height:1.5px;background:currentColor"></span>
+    </p>
+    <h1 style="font-family:'Oswald',sans-serif;font-size:clamp(3rem,7vw,8.5rem);font-weight:700;font-style:italic;line-height:.94em;letter-spacing:-.03em;color:var(--parch-100);margin-bottom:24px" class="fade-up d1">
+      What did<br>you receive?
+    </h1>
+    <p style="font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.72;color:rgba(255,251,231,.5);max-width:560px;margin:0 auto" class="fade-up d2">
+      Select the document you received and we'll give you a step-by-step action plan — explaining what it means, what to check, and what to do next.
+    </p>
+  </div>
+
+  <svg style="position:absolute;bottom:0;left:0;right:0;width:100%;pointer-events:none;z-index:1" viewBox="0 0 1440 72" preserveAspectRatio="none">
+    <path d="M0,40 C240,72 480,8 720,50 C960,92 1200,12 1440,42 L1440,72 L0,72Z" fill="var(--parch-50)"/>
+  </svg>
+</section>
+
+
+<!-- DOCUMENT SELECTOR + RESULTS -->
+<section class="tool-section">
+  <div class="tool-inner">
+
+    <div id="selector-area">
+      <p class="doc-selector-label fade-up">Choose Your Document</p>
+      <h2 class="doc-title fade-up d1">I received a…</h2>
+      <p class="doc-subtitle fade-up d2">Select the type of document you have in hand</p>
+
+      <div class="doc-grid">
+        <button class="doc-card fade-up" onclick="selectDoc('eob')" data-doc="eob">
+          <span class="doc-icon">📄</span>
+          <div class="doc-from">From: Insurance Company</div>
+          <div class="doc-name">Explanation of Benefits (EOB)</div>
+          <p class="doc-desc">A statement showing what your insurance processed for a claim — not a bill.</p>
+        </button>
+        <button class="doc-card fade-up d1" onclick="selectDoc('denial')" data-doc="denial">
+          <span class="doc-icon">✉️</span>
+          <div class="doc-from">From: Insurance Company</div>
+          <div class="doc-name">Denial Letter</div>
+          <p class="doc-desc">Your claim was denied — but denials can be wrong. You have the right to appeal.</p>
+        </button>
+        <button class="doc-card fade-up d2" onclick="selectDoc('hold')" data-doc="hold">
+          <span class="doc-icon">⏳</span>
+          <div class="doc-from">From: Insurance Company</div>
+          <div class="doc-name">Hold / Pending Letter</div>
+          <p class="doc-desc">Your claim is under review — more information may be needed before a decision.</p>
+        </button>
+        <button class="doc-card fade-up d1" onclick="selectDoc('approval')" data-doc="approval">
+          <span class="doc-icon">✅</span>
+          <div class="doc-from">From: Insurance Company</div>
+          <div class="doc-name">Approval Letter</div>
+          <p class="doc-desc">Your claim was approved — but always verify the amounts on your provider's bill.</p>
+        </button>
+        <button class="doc-card fade-up d2" onclick="selectDoc('doctor_bill')" data-doc="doctor_bill">
+          <span class="doc-icon">🏥</span>
+          <div class="doc-from">From: Doctor / Clinic</div>
+          <div class="doc-name">Bill from Doctor or Clinic</div>
+          <p class="doc-desc">A request for payment from your healthcare provider — always compare to your EOB first.</p>
+        </button>
+        <button class="doc-card fade-up d3" onclick="selectDoc('lab_bill')" data-doc="lab_bill">
+          <span class="doc-icon">🔬</span>
+          <div class="doc-from">From: Laboratory / Imaging Center</div>
+          <div class="doc-name">Bill from Lab or Imaging</div>
+          <p class="doc-desc">Separate from your doctor's bill — verify the lab's network status before paying.</p>
+        </button>
+      </div>
+    </div>
+
+    <!-- Results panel (shown after selection) -->
+    <div class="results-panel" id="results-panel">
+      <div class="results-inner">
+
+        <div class="results-header">
+          <div>
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
+              <span class="results-doc-icon" id="res-icon"></span>
+              <div>
+                <div class="results-doc-name" id="res-name"></div>
+                <div class="results-doc-sub" id="res-sub"></div>
+              </div>
+            </div>
+            <p class="results-doc-desc" id="res-desc"></p>
+          </div>
+        </div>
+
+        <div class="results-body">
+          <div>
+            <div class="results-steps-title">Your Action Plan</div>
+            <div id="res-steps"></div>
+          </div>
+          <div class="results-tips-col" id="res-tips"></div>
+        </div>
+
+        <div class="results-reset">
+          <span class="reset-text">Need to check a different document?</span>
+          <button class="reset-btn" onclick="resetTool()">← Choose a different document</button>
+        </div>
+
+      </div>
+
+      <div style="text-align:center;margin-top:48px;padding:0 24px">
+        <p style="font-size:.85rem;color:var(--text-body);opacity:.5;margin-bottom:20px">Want to go deeper? Read the full guide.</p>
+        <a href="steps.html" class="btn btn-outline-dark" style="color:var(--text-body);border-color:rgba(26,61,78,.25)">Read the 4-Step Guide</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- FOOTER (dark) -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="navibill_logo-2.png" alt="NaviBill" class="footer-logo">
+      <div>
+        <div class="footer-brand-name">NaviBill</div>
+        <p class="footer-tagline">Your Compass Through the Bermuda Triangle of Medical Billing.</p>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="steps.html">The 4-Step Guide</a></li>
+        <li><a href="tool.html">Interactive Tool</a></li>
+        <li><a href="about.html">About NaviBill</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Documents</div>
+      <ul class="footer-links">
+        <li><a href="#" onclick="selectDoc('eob');return false">EOB Guide</a></li>
+        <li><a href="#" onclick="selectDoc('denial');return false">Denial Letter</a></li>
+        <li><a href="#" onclick="selectDoc('doctor_bill');return false">Doctor's Bill</a></li>
+        <li><a href="#" onclick="selectDoc('lab_bill');return false">Lab Bill</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Learn</div>
+      <ul class="footer-links">
+        <li><a href="steps.html#coding">CPT Codes</a></li>
+        <li><a href="steps.html#forms">Understanding Forms</a></li>
+        <li><a href="resources.html#glossary">Billing Glossary</a></li>
+        <li><a href="resources.html#checklists">Checklists</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 NaviBill. Not legal or medical advice. For educational purposes only.</p>
+  </div>
+</footer>
+
+
+<script>
+  // ── Document data ─────────────────────────────────────────
+  const docs = {
+    eob: {
+      icon: '📄',
+      name: 'Explanation of Benefits (EOB)',
+      sub: 'From your insurance company',
+      desc: "An EOB is not a bill — it's a statement of what your insurance processed. It shows what was billed, what insurance paid, and what you may owe.",
+      steps: [
+        "Verify your name, insurance ID, and date of service are all correct",
+        "Find the service date and provider name — match these to your actual bill",
+        "Review 'Amount Billed' vs. 'Amount Allowed' vs. 'Your Responsibility'",
+        "Check if any charges were denied — look for a denial reason code",
+        "Compare the CPT codes on the EOB to the codes on your doctor's bill",
+        "If your provider's bill is higher than what EOB shows you owe, contact the provider billing department",
+        "File this EOB alongside your bill — you may need it for disputes"
+      ],
+      tips: [
+        { type: 'tip', label: 'Important Tip', text: 'Insurance must send you an EOB for every claim processed. Keep all EOBs until your bills are fully resolved.' },
+        { type: 'tip', label: 'Know Your Rights', text: 'EOBs are not final — you have the right to appeal any denied items within the deadline on the form.' },
+        { type: 'warning', label: 'Watch Out', text: 'If the EOB shows a service you don\'t recognize, contact your insurer immediately — it could indicate billing fraud.' },
+        { type: 'action', label: 'Next Step', text: 'Compare this EOB side by side with your provider\'s bill. Every line item should match. Use the interactive steps above to identify any discrepancies.' }
+      ]
+    },
+    denial: {
+      icon: '✉️',
+      name: 'Denial Letter',
+      sub: 'Your claim was denied — you can appeal',
+      desc: "A denial means your insurance rejected all or part of a claim. Denials can be wrong — and you have a legal right to appeal. Many denials are overturned on first appeal.",
+      steps: [
+        "Find the denial reason. This may be a code or a short summary. Your insurer is required by law to explain the reason. You will need to know the reason the claim was denied in order to dispute the denial.",
+        "Look up the denial code in your insurer's member portal or call member services",
+        "Check whether the service is covered under your plan's summary of benefits and if you meet the plan's medical necessity criteria. This criteria can be found in the health plan's policy book. Many health plans publish their policies online or you may request a copy.",
+        "Contact your doctor's office — they may need to submit additional clinical documentation",
+        "File a written internal appeal within your plan's deadline (usually 180 days from denial date)",
+        "If the internal appeal fails, request an external independent review",
+        "Contact your state insurance commissioner if the denial seems unreasonable or if deadlines aren't met"
+      ],
+      tips: [
+        { type: 'tip', label: 'Good News', text: 'Many denials are reversed on first appeal — especially when additional documentation is provided. Don\'t give up.' },
+        { type: 'tip', label: 'Common Denial Reasons', text: 'Not medically necessary, out-of-network, missing prior authorization, coding error, or missing documentation.' },
+        { type: 'warning', label: 'Critical Warning', text: 'Don\'t ignore this letter. Missing the appeal deadline can permanently forfeit your right to dispute the denial.' },
+        { type: 'action', label: 'Your Deadline', text: 'The appeal deadline is printed on your denial letter. Mark it on your calendar today. Most plans allow 180 days from the denial date.' }
+      ]
+    },
+    hold: {
+      icon: '⏳',
+      name: 'Hold / Pending Letter',
+      sub: 'Your claim needs more information',
+      desc: "A hold means your insurance needs more information before making a decision. It is not a denial — yet. Act quickly to prevent it from becoming one.",
+      steps: [
+        "Read the letter carefully to identify exactly what information is being requested",
+        "Call your doctor's office immediately — they likely need to submit clinical notes or documentation",
+        "Ask your doctor to send the specific clinical documentation that justifies the service to the insurer. Provide the doctor's office with the contact information provided on the hold letter that should be used to send the documentation.",
+        "Follow up with the insurer to confirm they received the submitted documentation",
+        "Get a reference number for every call you make — write it down with the date",
+        "Set a calendar reminder to follow up in 2 weeks if you haven't heard back",
+        "Keep copies of every document you or your provider submits"
+      ],
+      tips: [
+        { type: 'warning', label: 'Act Now', text: 'Do not wait. If documentation isn\'t submitted quickly, a hold will typically convert to a denial.' },
+        { type: 'tip', label: 'Who Handles This', text: 'Your doctor\'s office handles most hold responses — call them first before contacting insurance.' },
+        { type: 'tip', label: 'Timeline', text: 'Insurance companies have specific timeframes to make a decision after receiving documentation. Ask what the deadline is.' },
+        { type: 'action', label: 'Immediate Action', text: 'Call your doctor\'s billing department today. Give them the claim number, service date, and what the insurance company is requesting.' }
+      ]
+    },
+    approval: {
+      icon: '✅',
+      name: 'Approval Letter',
+      sub: 'Your claim was approved',
+      desc: "Your claim was approved — but that doesn't mean the bill is correct. Always verify that the amounts on your provider's bill match what the EOB says you owe.",
+      steps: [
+        "Confirm the service dates and provider name match your records",
+        "Find the 'Your Responsibility' amount — this is what you should owe",
+        "Compare this amount to what your provider is actually billing you",
+        "Verify your deductible, copay, and coinsurance amounts are correct for your plan year",
+        "Check that no additional services were bundled without your knowledge",
+        "If the provider's bill is higher than your EOB's 'Your Responsibility', contact the provider billing department",
+        "File this approval alongside your bill for future reference"
+      ],
+      tips: [
+        { type: 'tip', label: 'Key Rule', text: 'An in-network provider must accept the insurance\'s allowed amount as full payment. They cannot bill you more than your EOB shows.' },
+        { type: 'tip', label: 'Still Verify', text: 'An approval doesn\'t lock in your amount — providers can still bill incorrectly. Always compare EOB to bill.' },
+        { type: 'action', label: 'Quick Check', text: 'EOB "Your Responsibility" = what you owe. If your provider\'s bill is higher than this amount, call their billing department before paying.' }
+      ]
+    },
+    doctor_bill: {
+      icon: '🏥',
+      name: 'Bill from Doctor or Clinic',
+      sub: 'From your healthcare provider',
+      desc: "A bill from your doctor or clinic is a request for payment. Before paying, verify it against your EOB. Common errors include upcoded services, duplicate charges, and incorrect patient information.",
+      steps: [
+        "Do NOT pay until you've received and reviewed your EOB from insurance",
+        "Request an itemized bill if you only received a summary statement",
+        "Match the CPT codes on the bill to the codes listed on your EOB whenever possible.",
+        "Verify the service date, provider name, and patient name are all correct",
+        "Confirm the 'Amount Due' matches the 'Your Responsibility' line on your EOB",
+        "If amounts differ, call the provider's billing department with your EOB in hand",
+        "If you can't afford the amount due, ask about payment plans or financial hardship programs"
+      ],
+      tips: [
+        { type: 'tip', label: 'Know Your Rights', text: 'You are entitled to an itemized bill showing every charge. If you only received a summary, request the itemized version.' },
+        { type: 'tip', label: 'Common Errors', text: 'Watch for: upcoded procedure levels, duplicate charges, services you didn\'t receive, and wrong patient information.' },
+        { type: 'warning', label: 'Don\'t Pay Yet', text: 'Never pay a "balance due" before receiving your EOB. The amounts may be different — and you may be overpaying.' },
+        { type: 'tip', label: 'Avoid Paying in Advance', text: 'Some clinics ask for payment before submitting your claim to insurance. If possible, ask whether you can pay after your insurance has processed the claim. Advance payment is based on an estimate and can lead to upcoding or overpayment — which then requires a refund you\'ll have to chase. Not all clinics will agree, but it\'s always worth asking. If you do pay in advance, review your EOB carefully once it arrives. If the EOB shows you owed less than you paid — or nothing at all — contact the clinic to request a refund of the credit on your account. Clinics are not always proactive about issuing these refunds.' },
+        { type: 'action', label: 'Negotiation', text: 'If you\'re paying out of pocket or the amount is a hardship, you can often negotiate. Hospitals and clinics have financial assistance programs — ask about them.' }
+      ]
+    },
+    lab_bill: {
+      icon: '🔬',
+      name: 'Bill from Lab or Imaging',
+      sub: 'From a laboratory or imaging center',
+      desc: "Lab and imaging bills arrive separately from your doctor's bill and create their own set of potential errors — especially around network status and CPT coding.",
+      steps: [
+        "Verify the lab or imaging center is in-network with your insurance plan",
+        "Wait for your EOB from insurance before paying — compare amounts carefully",
+        "Request an itemized bill and match each CPT code to your EOB",
+        "Check for any duplicate tests (same test billed more than once)",
+        "Verify all tests listed were actually ordered by your doctor",
+        "If the lab is out-of-network, contact your insurer — you may qualify for a network exception",
+        "Contact the lab's billing department if you find any discrepancies"
+      ],
+      tips: [
+        { type: 'warning', label: 'Critical Check', text: 'A lab being in the same building or hospital system as your in-network doctor does NOT make it in-network. Always verify separately. Your doctor typically does not know the specifics of your health plan and cannot confirm whether a lab or imaging center is in-network with your insurer — do not rely on your doctor\'s office for this. You must contact the lab or your insurance directly to verify network status before the service is performed.' },
+        { type: 'tip', label: 'Timing', text: 'Lab and imaging bills often arrive weeks after the service date. Don\'t be surprised — wait for your EOB before acting.' },
+        { type: 'tip', label: 'Ask Your Doctor', text: 'If the lab is out-of-network, your doctor may be able to reorder the tests through an in-network facility to reduce your costs.' },
+        { type: 'action', label: 'Verify Network Status', text: 'Call the lab or imaging center and ask: "Are you in-network with [your insurance plan]?" Get the answer in writing if possible.' }
+      ]
+    }
+  };
+
+  // ── Tool logic ─────────────────────────────────────────────
+  function selectDoc(id) {
+    const d = docs[id];
+    if (!d) return;
+
+    // Mark card as selected
+    document.querySelectorAll('.doc-card').forEach(c => c.classList.remove('selected'));
+    const card = document.querySelector(`[data-doc="${id}"]`);
+    if (card) card.classList.add('selected');
+
+    // Populate results
+    document.getElementById('res-icon').textContent = d.icon;
+    document.getElementById('res-name').textContent = d.name;
+    document.getElementById('res-sub').textContent = d.sub;
+    document.getElementById('res-desc').textContent = d.desc;
+
+    // Steps
+    const stepsEl = document.getElementById('res-steps');
+    stepsEl.innerHTML = d.steps.map((step, i) => `
+      <div class="result-step">
+        <div class="result-step-num">${i + 1}</div>
+        <div class="result-step-text">${step}</div>
+      </div>
+    `).join('');
+
+    // Tips
+    const tipsEl = document.getElementById('res-tips');
+    tipsEl.innerHTML = d.tips.map(tip => {
+      if (tip.type === 'warning') {
+        return `<div class="result-warning"><div class="result-warning-label">⚠️ ${tip.label}</div><div class="result-warning-text">${tip.text}</div></div>`;
+      } else if (tip.type === 'action') {
+        return `<div class="result-action"><div class="result-action-label">→ ${tip.label}</div><div class="result-action-text">${tip.text}</div></div>`;
+      } else {
+        return `<div class="result-tip"><div class="result-tip-label">🧭 ${tip.label}</div><div class="result-tip-text">${tip.text}</div></div>`;
+      }
+    }).join('');
+
+    // Show results
+    document.getElementById('results-panel').classList.add('active');
+
+    // Scroll to results
+    setTimeout(() => {
+      document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  function resetTool() {
+    document.querySelectorAll('.doc-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('results-panel').classList.remove('active');
+    document.getElementById('selector-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Check for ?doc= param on page load
+  const params = new URLSearchParams(window.location.search);
+  const preselect = params.get('doc');
+  if (preselect && docs[preselect]) {
+    window.addEventListener('load', () => selectDoc(preselect));
+  }
+
+  // Scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
