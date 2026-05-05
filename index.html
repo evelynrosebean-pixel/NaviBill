@@ -667,6 +667,72 @@
       .stories-section,
       .cta-section { padding-left: 18px; padding-right: 18px; }
     }
+
+    /* ── HAMBURGER / MOBILE NAV ─────────────────── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 1001;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2.5px;
+      background: var(--parch-100);
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 62px;
+      left: 0; right: 0;
+      background: rgba(11,74,90,0.98);
+      flex-direction: column;
+      padding: 8px 0 20px;
+      z-index: 898;
+      border-top: 1px solid rgba(255,251,231,0.08);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      backdrop-filter: blur(12px);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      padding: 16px 28px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,251,231,0.7);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,251,231,0.07);
+      transition: color 0.2s, background 0.2s;
+    }
+    .mobile-menu a:hover,
+    .mobile-menu a.active { color: var(--parch-100); background: rgba(255,251,231,0.05); }
+    .mobile-menu .mobile-menu-cta {
+      margin: 16px 28px 0;
+      padding: 14px 28px;
+      background: var(--gold-500);
+      color: var(--text-dark) !important;
+      text-align: center;
+      border-radius: 3px;
+      border-bottom: none !important;
+      font-weight: 700;
+    }
+    .mobile-menu .mobile-menu-cta:hover { background: var(--gold-400) !important; }
+    @media (max-width: 768px) { .hamburger { display: flex; } }
+
   </style>
 </head>
 <body>
@@ -684,7 +750,19 @@
       <li><a href="resources.html">Resources</a></li>
     </ul>
     <a href="tool.html" class="nav-cta">Launch Tool</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
   </nav>
+
+<div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+      <a href="index.html" class="active">Home</a>
+      <a href="steps.html">The Guide</a>
+      <a href="tool.html">Navigator Tool</a>
+      <a href="about.html">About</a>
+      <a href="resources.html">Resources</a>
+      <a href="tool.html" class="mobile-menu-cta">Launch Tool →</a>
+    </div>
 </header>
 
 
@@ -1056,6 +1134,25 @@
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  // Mobile hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
 </script>
 </body>
 </html>
